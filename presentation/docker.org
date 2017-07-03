@@ -17,12 +17,13 @@
   5. Erstellen eines Dockercontainers am Beispiel von ... (Minecraft?)
   6. Ausblick (Swarm, Openshift, Kubernetes)
 
-*
-* Übersicht
-  1. Softwaredeployments früher und heute
-  2. Was ist Docker?
-  3. Docker commands
-  4. Weitere Technologien
+* Einleitung
+  Was wollen wir heute erreichen?
+  #+ATTR_HTML: :class build fade
+    1. jeder sollte lernen was Docker ist
+    2. grundsätzliches Verständnis von Docker
+    3. die wichtigsten Befehle zum Bauen, Starten und Stoppen von Containern
+    4. einfache Docker Container selbst bauen
 * Überblick Deploymentarten
 :PROPERTIES:
 :SLIDE: segue dark quote

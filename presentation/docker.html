@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2017-07-03 Mo 11:44 -->
+<!-- 2017-07-03 Mo 20:47 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -38,18 +38,45 @@
   
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgda6cb43" class="outline-2">
-<h2 id="orgda6cb43">Übersicht</h2>
+       <h2 class=" "><div id="outline-container-orgf18d363" class="outline-2">
+<h2 id="orgf18d363">Übersicht</h2>
 </div>
 </h2>
        <h3></h3>
        </hgroup>
 <article class="" id="text-">
 <ol>
-<li>Softwaredeployments früher und heute</li>
+<li>Einleitung</li>
 <li>Was ist Docker?</li>
-<li>Docker commands</li>
-<li>Weitere Technologien</li>
+<li>Unterschied VM &amp; Container</li>
+<li>Überblick Docker Befehle</li>
+<li>Erstellen eines Dockercontainers am Beispiel von &#x2026; (Minecraft?)</li>
+<li>Ausblick (Swarm, Openshift, Kubernetes)</li>
+</ol>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org9c31dc9" class="outline-2">
+<h2 id="org9c31dc9">Einleitung</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Was wollen wir heute erreichen?
+</p>
+<ol class="build fade">
+<li>jeder sollte lernen was Docker ist</li>
+<li>grundsätzliches Verständnis von Docker</li>
+<li>die wichtigsten Befehle zum Bauen, Starten und Stoppen von Containern</li>
+<li>einfache Docker Container selbst bauen</li>
 </ol>
 
 
@@ -59,8 +86,8 @@
 </slide>
 <slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="adesso-favicon.png"></aside><hgroup class="">
-       <h2 class=" "><div id="outline-container-orgf637514" class="outline-2">
-<h2 id="orgf637514">Überblick Deploymentarten</h2>
+       <h2 class=" "><div id="outline-container-orga8588fb" class="outline-2">
+<h2 id="orga8588fb">Überblick Deploymentarten</h2>
 </div>
 </h2>
        <h3></h3>
@@ -77,8 +104,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgc2ef1f6" class="outline-2">
-<h2 id="orgc2ef1f6">Bare Metal</h2>
+       <h2 class=" "><div id="outline-container-org3f05259" class="outline-2">
+<h2 id="org3f05259">Bare Metal</h2>
 </div>
 </h2>
        <h3></h3>
@@ -105,8 +132,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org566ff25" class="outline-2">
-<h2 id="org566ff25">Virtualisierung</h2>
+       <h2 class=" "><div id="outline-container-org53687b3" class="outline-2">
+<h2 id="org53687b3">Virtualisierung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -133,8 +160,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org4ed6051" class="outline-2">
-<h2 id="org4ed6051">Prozessisolierung</h2>
+       <h2 class=" "><div id="outline-container-orgc4d6056" class="outline-2">
+<h2 id="orgc4d6056">Prozessisolierung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -171,8 +198,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgbc0216d" class="outline-2">
-<h2 id="orgbc0216d">Prozessisolierung #2</h2>
+       <h2 class=" "><div id="outline-container-org0dadbab" class="outline-2">
+<h2 id="org0dadbab">Prozessisolierung #2</h2>
 </div>
 </h2>
        <h3></h3>
@@ -201,8 +228,8 @@ Im Wesentlichen kann das Hostsystem wieder wie bei "Bare Metal" voll ausgelastet
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orga7613a6" class="outline-2">
-<h2 id="orga7613a6">Systemprozesse in VMs</h2>
+       <h2 class=" "><div id="outline-container-org83af7a1" class="outline-2">
+<h2 id="org83af7a1">Systemprozesse in VMs</h2>
 </div>
 </h2>
        <h3></h3>
@@ -231,8 +258,8 @@ pstree in bash -&gt; Prozessbaum
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgaa44203" class="outline-2">
-<h2 id="orgaa44203">Systemprozesse in Containern</h2>
+       <h2 class=" "><div id="outline-container-orgfdd3174" class="outline-2">
+<h2 id="orgfdd3174">Systemprozesse in Containern</h2>
 </div>
 </h2>
        <h3></h3>
@@ -253,8 +280,8 @@ pstree in bash -&gt; Prozessbaum
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgb98a6f8" class="outline-2">
-<h2 id="orgb98a6f8">Was ist Docker?</h2>
+       <h2 class=" "><div id="outline-container-org9c4d6a7" class="outline-2">
+<h2 id="org9c4d6a7">Was ist Docker?</h2>
 </div>
 </h2>
        <h3></h3>
@@ -285,8 +312,8 @@ pstree in bash -&gt; Prozessbaum
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org9e4ba90" class="outline-2">
-<h2 id="org9e4ba90">Effizienz</h2>
+       <h2 class=" "><div id="outline-container-orga86de08" class="outline-2">
+<h2 id="orga86de08">Effizienz</h2>
 </div>
 </h2>
        <h3></h3>
@@ -319,8 +346,8 @@ Sinnvoll oder nicht&#x2026;
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org03554e0" class="outline-2">
-<h2 id="org03554e0">Docker Images vs. Containers</h2>
+       <h2 class=" "><div id="outline-container-org75a4f68" class="outline-2">
+<h2 id="org75a4f68">Docker Images vs. Containers</h2>
 </div>
 </h2>
        <h3></h3>
@@ -354,8 +381,8 @@ und dem laufenden Container auf die Festplatte geschrieben werden (Layer funktio
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org2b43660" class="outline-2">
-<h2 id="org2b43660">docker daemon</h2>
+       <h2 class=" "><div id="outline-container-org7fa4ab8" class="outline-2">
+<h2 id="org7fa4ab8">docker daemon</h2>
 </div>
 </h2>
        <h3></h3>
@@ -395,8 +422,8 @@ Images: 20
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgf40b403" class="outline-2">
-<h2 id="orgf40b403">docker help (Auszug)</h2>
+       <h2 class=" "><div id="outline-container-org9f40de5" class="outline-2">
+<h2 id="org9f40de5">docker help (Auszug)</h2>
 </div>
 </h2>
        <h3></h3>
@@ -437,8 +464,8 @@ Commands:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgdc1f1c8" class="outline-2">
-<h2 id="orgdc1f1c8">Docker Registry + docker search</h2>
+       <h2 class=" "><div id="outline-container-org472481f" class="outline-2">
+<h2 id="org472481f">Docker Registry + docker search</h2>
 </div>
 </h2>
        <h3></h3>
@@ -468,8 +495,8 @@ cloudbees/jenkins-enterprise          CloudBees Jenkins Enterprise (Rolling rele
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org82defe4" class="outline-2">
-<h2 id="org82defe4">docker run</h2>
+       <h2 class=" "><div id="outline-container-org3265e6a" class="outline-2">
+<h2 id="org3265e6a">docker run</h2>
 </div>
 </h2>
        <h3></h3>
@@ -515,8 +542,8 @@ a7ebd808d959        jenkins             "/bin/tini -- /usr..."   18 minutes ago 
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org32e596b" class="outline-2">
-<h2 id="org32e596b">Diff im Dateisystem</h2>
+       <h2 class=" "><div id="outline-container-orgb8ab319" class="outline-2">
+<h2 id="orgb8ab319">Diff im Dateisystem</h2>
 </div>
 </h2>
        <h3></h3>
@@ -564,8 +591,8 @@ drwx------ 2 root root 25 Jan 26 09:12 root
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org73dc85d" class="outline-2">
-<h2 id="org73dc85d">docker diff</h2>
+       <h2 class=" "><div id="outline-container-orgd09855a" class="outline-2">
+<h2 id="orgd09855a">docker diff</h2>
 </div>
 </h2>
        <h3></h3>
@@ -592,8 +619,8 @@ A /root/.ash_history</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org37e60a8" class="outline-2">
-<h2 id="org37e60a8">docker stop, kill + restart</h2>
+       <h2 class=" "><div id="outline-container-org04bf784" class="outline-2">
+<h2 id="org04bf784">docker stop, kill + restart</h2>
 </div>
 </h2>
        <h3></h3>
@@ -626,8 +653,8 @@ bcc11a719248        alpine               "/bin/sh"                51 minutes ago
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org47ab03b" class="outline-2">
-<h2 id="org47ab03b">docker images + rm + rmi</h2>
+       <h2 class=" "><div id="outline-container-org2b669c2" class="outline-2">
+<h2 id="org2b669c2">docker images + rm + rmi</h2>
 </div>
 </h2>
        <h3></h3>
@@ -646,8 +673,8 @@ bcc11a719248        alpine               "/bin/sh"                51 minutes ago
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org2ad72ce" class="outline-2">
-<h2 id="org2ad72ce">docker run - Ports</h2>
+       <h2 class=" "><div id="outline-container-org63cb86e" class="outline-2">
+<h2 id="org63cb86e">docker run - Ports</h2>
 </div>
 </h2>
        <h3></h3>
@@ -703,8 +730,8 @@ docker run <b>-d</b> startet den Container im Hintergrund (-d == &#x2013;detach)
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org5c2b62b" class="outline-2">
-<h2 id="org5c2b62b">docker run - Ports</h2>
+       <h2 class=" "><div id="outline-container-org7de55d2" class="outline-2">
+<h2 id="org7de55d2">docker run - Ports</h2>
 </div>
 </h2>
        <h3></h3>
@@ -737,8 +764,8 @@ Escape character is '^]'.</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org960caf4" class="outline-2">
-<h2 id="org960caf4">docker build</h2>
+       <h2 class=" "><div id="outline-container-org599a273" class="outline-2">
+<h2 id="org599a273">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -768,8 +795,8 @@ Dann versuchen wir es mal&#x2026;
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org39878d5" class="outline-2">
-<h2 id="org39878d5">docker build</h2>
+       <h2 class=" "><div id="outline-container-orgd2b6d0d" class="outline-2">
+<h2 id="orgd2b6d0d">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -804,8 +831,8 @@ FROM openjdk:jre-alpine</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org67ae347" class="outline-2">
-<h2 id="org67ae347">docker build</h2>
+       <h2 class=" "><div id="outline-container-org2890e66" class="outline-2">
+<h2 id="org2890e66">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -838,8 +865,8 @@ ADD minecraft_server.1.11.2.jar /opt/mc/mcserver.jar</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org026a2d0" class="outline-2">
-<h2 id="org026a2d0">docker build</h2>
+       <h2 class=" "><div id="outline-container-orge78207b" class="outline-2">
+<h2 id="orge78207b">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -866,8 +893,8 @@ CMD java -Xmx1024M -Xms1024M -jar /opt/mc/mcserver.jar nogui</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org9f5c03a" class="outline-2">
-<h2 id="org9f5c03a">docker build</h2>
+       <h2 class=" "><div id="outline-container-orga861f8c" class="outline-2">
+<h2 id="orga861f8c">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -922,8 +949,8 @@ e76c3cee9a19        mc-server           "/bin/sh -c 'java ..."   14 seconds ago 
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org0faad0d" class="outline-2">
-<h2 id="org0faad0d">docker pull</h2>
+       <h2 class=" "><div id="outline-container-orgd9f89f1" class="outline-2">
+<h2 id="orgd9f89f1">docker pull</h2>
 </div>
 </h2>
        <h3></h3>
@@ -954,8 +981,8 @@ jenkins                           latest              59d580851733        8 days
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org434a6d7" class="outline-2">
-<h2 id="org434a6d7">docker push</h2>
+       <h2 class=" "><div id="outline-container-orgdde533e" class="outline-2">
+<h2 id="orgdde533e">docker push</h2>
 </div>
 </h2>
        <h3></h3>
@@ -973,8 +1000,8 @@ jenkins                           latest              59d580851733        8 days
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgb6831cd" class="outline-2">
-<h2 id="orgb6831cd">Volumes</h2>
+       <h2 class=" "><div id="outline-container-org52fdc48" class="outline-2">
+<h2 id="org52fdc48">Volumes</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1014,8 +1041,8 @@ docker run -p 25565 -v <b>my-mc-data</b>:/opt/mc-data/ mcs</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org007b195" class="outline-2">
-<h2 id="org007b195">docker volume ls + inspect</h2>
+       <h2 class=" "><div id="outline-container-orga6fe64a" class="outline-2">
+<h2 id="orga6fe64a">docker volume ls + inspect</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1051,8 +1078,8 @@ local               my-mc-data
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org89d58b0" class="outline-2">
-<h2 id="org89d58b0">docker networking</h2>
+       <h2 class=" "><div id="outline-container-orgf5a10dc" class="outline-2">
+<h2 id="orgf5a10dc">docker networking</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1073,8 +1100,8 @@ local               my-mc-data
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org68cc4f0" class="outline-2">
-<h2 id="org68cc4f0">docker-compose</h2>
+       <h2 class=" "><div id="outline-container-org6283655" class="outline-2">
+<h2 id="org6283655">docker-compose</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1110,8 +1137,8 @@ volumes:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org16ffc28" class="outline-2">
-<h2 id="org16ffc28">Orchestrierung</h2>
+       <h2 class=" "><div id="outline-container-org97fdc24" class="outline-2">
+<h2 id="org97fdc24">Orchestrierung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1129,8 +1156,8 @@ volumes:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orga6daf71" class="outline-2">
-<h2 id="orga6daf71">Zusammenfassung</h2>
+       <h2 class=" "><div id="outline-container-org434c72f" class="outline-2">
+<h2 id="org434c72f">Zusammenfassung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1152,8 +1179,8 @@ volumes:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org1f6f645" class="outline-2">
-<h2 id="org1f6f645">Docker Toolbox</h2>
+       <h2 class=" "><div id="outline-container-org07bce58" class="outline-2">
+<h2 id="org07bce58">Docker Toolbox</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1181,8 +1208,8 @@ volumes:
 </slide>
 <slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="adesso-favicon.png"></aside><hgroup class="">
-       <h2 class=" "><div id="outline-container-org787fcfe" class="outline-2">
-<h2 id="org787fcfe">Fragen?</h2>
+       <h2 class=" "><div id="outline-container-org07caf3a" class="outline-2">
+<h2 id="org07caf3a">Fragen?</h2>
 </div>
 </h2>
        <h3></h3>
