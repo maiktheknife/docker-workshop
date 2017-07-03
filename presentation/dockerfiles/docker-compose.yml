@@ -1,0 +1,16 @@
+version: '2'
+services:
+  jenkins:
+    image: jenkins
+    ports:
+      - "8080:8080"
+    links:
+      - minecraft-server
+  minecraft-server:
+    volumes:
+      - my-mc-data:/opt/mc-data
+    build: mcserver
+    ports:
+      - "25565"
+volumes:
+  my-mc-data: {}

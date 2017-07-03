@@ -1,0 +1,37 @@
+h1(#überblick-betriebsumgebungen). Überblick Betriebsumgebungen
+
+h2(#bare-metal). Bare Metal
+
+h2(#virtualisierung). Virtualisierung
+
+h2(#prozessisolierung). Prozessisolierung
+
+h1(#was-ist-docker). Was ist Docker?
+
+* leichtgewichtige Virtualisierung &#45;&gt; Prozessisolierung
+* basierend auf Linux Kernel Technologien
+* Isolierung Dateisystem (Layers und Volumes)
+* Isolierung CPU &#43; RAM
+* Isolierung Netzwerk
+
+h1(#docker-search-run). docker search &#43; run
+
+h2(#volumes). Volumes
+
+h2(#links). Links
+
+h1(#docker-kill-restart). docker kill &#43; restart
+
+h1(#docker-ps-images-rm-rmi). docker ps &#43; images &#43; rm &#43; rmi
+
+h1(#docker-pull). docker pull
+
+h1(#docker-build). docker build
+
+h1(#docker-push). docker push
+
+h1(#docker-compose). docker&#45;compose
+
+!hello_world.png!
+
+h2(#test2). test2

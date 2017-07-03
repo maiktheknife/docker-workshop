@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2017-07-03 Mo 11:44 -->
+<meta  charset="utf-8" />
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
+<meta  name="generator" content="Org-mode with org-ioslide" />
+<meta  name="author" content="Patrick Selge &amp; Sebastian May" />
+
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" media="all" href="theme/css/default.css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css" />
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css" />
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="adesso-favicon.png"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgda6cb43" class="outline-2">
+<h2 id="orgda6cb43">Übersicht</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ol>
+<li>Softwaredeployments früher und heute</li>
+<li>Was ist Docker?</li>
+<li>Docker commands</li>
+<li>Weitere Technologien</li>
+</ol>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="adesso-favicon.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgf637514" class="outline-2">
+<h2 id="orgf637514">Überblick Deploymentarten</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+<p>
+Bare metal, Virtuelle Maschinen und Prozessisolierung
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgc2ef1f6" class="outline-2">
+<h2 id="orgc2ef1f6">Bare Metal</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Software läuft als normaler Benutzer (idealerweise 1 Benutzer pro Software)</li>
+<li>Auf dem Laptop eher alle Software in einem Account</li>
+<li>Das System "vermüllt", es gibt Sicherheitsrisiken, Abhängigkeiten zwischen Bibliotheken, etc. 😢</li>
+<li>Upgraden ist erschwert, schwer automatisierbar 😢</li>
+</ul>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="bare_metal.png" alt="bare_metal.png" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org566ff25" class="outline-2">
+<h2 id="org566ff25">Virtualisierung</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Software läuft komplett isoliert in einem virtuellen Rechner</li>
+<li>Das Hostsystem ist weiter unabhängig von der Software die auf dem System läuft</li>
+<li>Softwareupgrades sind isoliert, Abhängigkeiten aufgelöst, Softwareprobleme isoliert, voll automatisierbar 😊</li>
+<li>Erhöhte Komplexität, Performanceeinbusse, geringe Service "Density"😢</li>
+</ul>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="host_vm.png" alt="host_vm.png" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org4ed6051" class="outline-2">
+<h2 id="org4ed6051">Prozessisolierung</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul class="build fade">
+<li>ähnlich einer Sandbox wird bei Containern ein Prozess von allen anderen Prozessen abgeschottet</li>
+<li>Namespaces: Linux Kernel Technologie seit 2002 (mount namespace), vollständig seit 2013
+<ul>
+<li>Prozessebene</li>
+<li>Benutzer</li>
+<li>Netzwerk</li>
+<li>HDD</li>
+<li>Interprocess Communication (ipc)</li>
+<li>Hostnames</li>
+</ul></li>
+<li>Control Groups:
+<ul>
+<li>Entwickelt von Google und Bestandteil von Linux seit 2008</li>
+<li>Wird verwendet um CPU, RAM, Disk und Netzwerk limitieren zu können</li>
+</ul></li>
+<li>Ähnliche Technologien: FreeBSD Jails, chroot(), Solaris Zones</li>
+<li>Prozesse sind unabhängig voneinaner, Resourcenbedarf und auslastung ist optimal 😊</li>
+<li>Voll automatisierbar, schnell zu bauen, extrem schneller Start</li>
+<li>Fehlerhafter Betrieb der Containersoftware (Docker) in Verbindung mit Linux Kernel Bugs/Exploits sind nicht so sicher wie VMs 😢</li>
+<li>Beschränkt auf den Kernel des Hostsystems 😢</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgbc0216d" class="outline-2">
+<h2 id="orgbc0216d">Prozessisolierung #2</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Namespaces und Control Groups bieten also alle Vorteiler einer VM, ohne den hohen Resourcenbedarf!
+</p>
+
+<p>
+Im Wesentlichen kann das Hostsystem wieder wie bei "Bare Metal" voll ausgelastet werden.
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="host_container.png" alt="host_container.png" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orga7613a6" class="outline-2">
+<h2 id="orga7613a6">Systemprozesse in VMs</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Prozesse unter Linux/POSIX<sup>1</sup></li>
+</ul>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="vm_pid.png" alt="vm_pid.png" />
+</p>
+</div>
+</article>
+
+<footer class="source">
+<p class="footpara">1. 
+pstree in bash -&gt; Prozessbaum
+</p>
+</footer>
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgaa44203" class="outline-2">
+<h2 id="orgaa44203">Systemprozesse in Containern</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="vm_pid_container.png" alt="vm_pid_container.png" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgb98a6f8" class="outline-2">
+<h2 id="orgb98a6f8">Was ist Docker?</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Entwickelt von Docker Inc.</li>
+<li>Zusammenfassung der erwähnten Technologien in ein einfach zu bediendes Softwarepaket</li>
+<li>leichtgewichtige Virtualisierung
+-&gt; Prozessisolierung</li>
+<li>basierend auf Linux Kernel Technologien</li>
+<li>Isolierung Dateisystem (Layers und Volumes)</li>
+<li>Isolierung CPU + RAM</li>
+<li>Isolierung Netzwerk</li>
+<li>Zusätzlich:
+<ul>
+<li>Definition eines Containerformats</li>
+<li>Bereitstellung eines Daemons zum Steuern der laufenden Container</li>
+<li>Containermanagement (Layer, Dockerfile, Volumes, Netzwerk)</li>
+</ul></li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org9e4ba90" class="outline-2">
+<h2 id="org9e4ba90">Effizienz</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul class="build fade">
+<li><p>
+Sinnvoll oder nicht&#x2026;
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="docker_rpi.png" alt="docker_rpi.png" width="800px" />
+</p>
+</div>
+</article></li>
+<li>Awesome: Custom Development verteilter Systeme
+<ul>
+<li>Entwicklung von Ansible Scripten für Kunden basierend auf deren Server Architektur</li>
+<li>Prod-Umgebung: 100+ VMs mit ca. 10 verschiedenen VM-Typen</li>
+<li>Test-Umgebung: 20+ VMs auf 5+ sehr teuren und großen Servern</li>
+<li>Dev-Umgebung mit Docker: 20+ Container auf einem Laptop!</li>
+</ul></li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org03554e0" class="outline-2">
+<h2 id="org03554e0">Docker Images vs. Containers</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Ein <b>Image</b> ist ein die gepackte Version einer Software, inkl. allen Softwareabhängigkeiten
+<ul>
+<li>Es enthält das komplette Dateisystem (/usr, /bin, /var, etc.)</li>
+</ul></li>
+<li>Mit <b><b>docker run</b></b> wird aus einem Image ein Container
+<ul>
+<li>Docker sorgt dafür, dass der Prozess mit den richtigen Namespaces gestartet wird</li>
+<li>Besonderheit bei Docker ist dabei, dass mittels "Copy-On-Write" Mechanismus nur die Änderungen die zwischen dem Image
+und dem laufenden Container auf die Festplatte geschrieben werden (Layer funktionieren genau so)</li>
+</ul></li>
+<li><b>Container</b> ist somit die konkrete Instanz eines gestarteten Images</li>
+</ul>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="dot_success.png" alt="dot_success.png" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org2b43660" class="outline-2">
+<h2 id="org2b43660">docker daemon</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Docker besteht aus mehreren Prozessen, ein Daemon der die Kommandos entgegennimmt</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] ps aux | grep docker
+root      1317  0.0  0.1 703284 40772 ?        Ssl  Jan25   0:59 /usr/bin/dockerd -H fd://
+root      1527  0.0  0.0 605296  9716 ?        Ssl  Jan25   0:35 docker-containerd -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --metrics-interval=0 --start-timeout 2m --state-dir /var/run/docker/libcontainerd/containerd --shim docker-containerd-shim --runtime docker-runc</pre>
+
+</div>
+<ul>
+<li>docker info</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker info
+Containers: 9
+ Running: 0
+ Paused: 0
+ Stopped: 9
+Images: 20
+.....</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgf40b403" class="outline-2">
+<h2 id="orgf40b403">docker help (Auszug)</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker help
+Usage:  docker COMMAND
+Commands:
+  attach      Attach to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  exec        Run a command in a running container
+  images      List images
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  logs        Fetch the logs of a container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  search      Search the Docker Hub for images
+  stop        Stop one or more running containers
+  top         Display the running processes of a container</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgdc1f1c8" class="outline-2">
+<h2 id="orgdc1f1c8">Docker Registry + docker search</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Docker Inc. hosted eine öffentliche Registry unter <a href="http://store.docker.com">http://store.docker.com</a> (ehemals <a href="http://hub.docker.com">http://hub.docker.com</a>)</li>
+<li><b>docker search</b> ist die Kommandozeilenvariante</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker search jenkins
+NAME                                  DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+jenkins                               Official Jenkins Docker image                   2442      [OK]
+stephenreed/jenkins-java8-maven-git   Automated build that provides a continuous...   51                   [OK]
+killercentury/jenkins-dind            Generic Jenkins CI with Docker Engine and ...   24                   [OK]
+aespinosa/jenkins                     Sets up a container with jenkins installed...   22                   [OK]
+cloudbees/jenkins-enterprise          CloudBees Jenkins Enterprise (Rolling rele...   15                   [OK]</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org82defe4" class="outline-2">
+<h2 id="org82defe4">docker run</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li><b>docker run</b> wird benutzt um einen Container zu starten</li>
+<li>Wenn das Image lokal nicht existiert, lädt docker das Image aus der öffentlichen Registry</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker run -ti alpine:edge /bin/sh
+Unable to find image 'alpine:edge' locally
+edge: Pulling from library/alpine
+70d475d0fb0e: Pull complete
+Digest: sha256:3129b91dd67b7d690f827655cb90006ce6a526477ad1ce7a4961b0bf1c7bbb68
+Status: Downloaded newer image for alpine:edge
+/ # cat /etc/alpine-release
+3.5.0
+/ # ps
+PID   USER     TIME   COMMAND
+    1 root       0:00 /bin/sh
+   13 root       0:00 ps</pre>
+
+</div>
+<ul>
+<li><b>docker ps</b> zeigt die laufenden Container</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                NAMES
+a7ebd808d959        jenkins             "/bin/tini -- /usr..."   18 minutes ago      Up 18 minutes       50000/tcp, 0.0.0.0:32768-&gt;8080/tcp   cocky_kilby</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org32e596b" class="outline-2">
+<h2 id="org32e596b">Diff im Dateisystem</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>startet man einen Container werden nur die Änderungen geschrieben<sup>1</sup></li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker run <b>-ti</b> alpine:edge /bin/sh
+/ # touch TEST_DATEI
+/ # touch "hello world"</pre>
+
+</div>
+<ul>
+<li>Änderungen im Dateisystem werden dabei im "UpperDir" (siehe docker inspect) gespeichert:</li>
+</ul>
+<pre class="example">
+[sebastian@calculon➔ ~] docker inspect pedantic_beaver
+....
+        "GraphDriver": {
+            "Name": "overlay2",
+            "Data": {
+                "UpperDir": "/var/lib/docker/overlay2/4a2794f5fcfcfe71338d2282aad0b8fbab3a9435e220f4eda65cc571c61b5be2/diff",
+....
+[sebastian@calculon➔ ~] sudo ls -la /var/lib/docker/overlay2/4a2794f5fcfcfe71338d2282aad0b8fbab3a9435e220f4eda65cc571c61b5be2/diff/
+insgesamt 0
+drwxr-xr-x 3 root root 52 Jan 26 09:13 .
+drwx------ 5 root root 64 Jan 26 09:12 ..
+-rw-r--r-- 1 root root  0 Jan 26 09:13 hello world
+drwx------ 2 root root 25 Jan 26 09:12 root
+-rw-r--r-- 1 root root  0 Jan 26 09:12 TEST_DATEI
+</pre>
+
+<footer class="source">
+<p class="footpara">1. 
+-ti "verbindet" das Terminal des containers mit der aktuellen Konsole (-t <code>= TTY, -i =</code> interactive)
+</p>
+</footer>
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org73dc85d" class="outline-2">
+<h2 id="org73dc85d">docker diff</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Das diff kann man sich auch mit <b>docker diff</b> anschauen</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker diff pedantic_beaver
+A /TEST_DATEI
+A /hello world
+C /root
+A /root/.ash_history</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org37e60a8" class="outline-2">
+<h2 id="org37e60a8">docker stop, kill + restart</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Mit <b>docker ps</b> und <b>docker kill</b> können Container gestopped werden</li>
+<li><b>docker ps -a</b> zeigt auch die gestoppten Container</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker ps -a
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                        PORTS                                NAMES
+92989419d1ae        alpine:edge          "/bin/sh"                4 minutes ago       Exited (137) 14 seconds ago                                        dazzling_curran
+a7ebd808d959        jenkins              "/bin/tini -- /usr..."   11 minutes ago      Up 11 minutes                 50000/tcp, 0.0.0.0:32768-&gt;8080/tcp   cocky_kilby
+bcc11a719248        alpine               "/bin/sh"                51 minutes ago      Exited (0) 50 minutes ago                                          sharp_carson
+693c0649d9a2        alpine               "/bin/sh"                51 minutes ago      Exited (0) 51 minutes ago                                          amazing_wright</pre>
+
+</div>
+<ul>
+<li>Mit <b>docker restart</b> kann man den Container wieder starten</li>
+<li>Achtung: Dabei können sich dynamisch zugewiesene Ports ändern!</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org47ab03b" class="outline-2">
+<h2 id="org47ab03b">docker images + rm + rmi</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Wie managed man nun Images und Container?</li>
+<li><b>docker ps -a</b> &amp; <b>docker images</b> zum Anzeigen von lokalen Containern und Images</li>
+<li><b>docker rm</b> &amp; <b>docker rmi</b> zum Löschen lokaler Container und Images</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org2ad72ce" class="outline-2">
+<h2 id="org2ad72ce">docker run - Ports</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>startet man einen Container mit Netzwerkservice werden standardmäßig keine Ports durchgereicht<sup>1</sup></li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker run <b>-d</b> jenkins
+99614183b12e4e65b89e8f996a810d064b53e265d7bf4e30dddaf7d203678c0e
+[sebastian@calculon➔ ~] docker port 9961
+[sebastian@calculon➔ ~]</pre>
+
+</div>
+<ul>
+<li>Container definieren Ports die "exposed" sein können, z.B. Port 8080 bei Jenkins</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker inspect -f '{{ .Config.ExposedPorts }}' jenkins
+map[50000/tcp:{} 8080/tcp:{}]</pre>
+
+</div>
+<ul>
+<li>Um Docker einen freien Port aussuchen zu lassen gibt man nur den Containerport an</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker run -d -p <b>8080</b> jenkins
+1db61c49a0b614199487ee024e4bc0519ee30e1d9b44e371d16f89722a9fdf7f
+[sebastian@calculon➔ ~] docker port 1db6
+<b>8080</b>/tcp -&gt; 0.0.0.0:<b>32770</b>
+[sebastian@calculon➔ ~] telnet localhost <b>32770</b>
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.</pre>
+
+</div>
+
+<footer class="source">
+<p class="footpara">1. 
+docker run <b>-d</b> startet den Container im Hintergrund (-d == &#x2013;detach)
+</p>
+</footer>
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org5c2b62b" class="outline-2">
+<h2 id="org5c2b62b">docker run - Ports</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Um einen Port selbst zu wählen, kann man das Mapping mit <b>-p &lt;Hostport&gt;:&lt;Containerport&gt;</b> angeben</li>
+<li>mehrere Portmappings sind möglich</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker run -d -p <b>8080:8080</b> -p <b>20000:50000</b> jenkins
+aaa099544c3d8b4a7053e42abc1dc24e5f0d085c727aaa13492ab32bf129d427
+[sebastian@calculon➔ ~] telnet 0 <b>20000</b>
+Trying 0.0.0.0...
+Connected to 0.
+Escape character is '^]'.
+[sebastian@calculon➔ ~] telnet 0 <b>8080</b>
+Trying 0.0.0.0...
+Connected to 0.
+Escape character is '^]'.</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org960caf4" class="outline-2">
+<h2 id="org960caf4">docker build</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul class="build fade">
+<li><b>docker build</b> wird benutzt um eigene Images zu bauen</li>
+<li>Dafür benötigen wir ein leeres Verzeichnis mit einer Datei names <b>Dockerfile</b></li>
+<li>Referenz: <a href="https://docs.docker.com/engine/reference/builder/#/from">https://docs.docker.com/engine/reference/builder/#/from</a></li>
+<li>Das Dockerfile enthält ähnlich wie ein Bash-Script eine Reihenfolge an Befehlen um basierend auf einem Base-Image ein eigenes Image zu erstellen</li>
+<li><p>
+Dann versuchen wir es mal&#x2026;
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="minecraft.jpg" alt="minecraft.jpg" width="800px" />
+</p>
+</div>
+</article></li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org39878d5" class="outline-2">
+<h2 id="org39878d5">docker build</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Wir benötigen ein Baseimage</li>
+<li>Am Besten mit JAVA schon integriert..</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker search openjdk
+NAME                          DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+openjdk                       OpenJDK is an open-source implementation o...   266       [OK]</pre>
+
+</div>
+<ul>
+<li>Das benutzen wir im Dockerfile</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+FROM openjdk:jre-alpine</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org67ae347" class="outline-2">
+<h2 id="org67ae347">docker build</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Dateien werden mit dem Kommando <b>ADD</b> im Container hinzugefügt</li>
+<li>Das funktioniert mit URLs&#x2026; (wird bei jedem 'docker build' neu geladen)</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+ADD https://s3.amazonaws.com/Minecraft.Download/versions/1.11.2/minecraft_server.1.11.2.jar /opt/mc/mcserver.jar</pre>
+
+</div>
+<ul>
+<li>Und mit lokalen Dateien&#x2026;</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+ADD minecraft_server.1.11.2.jar /opt/mc/mcserver.jar</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org026a2d0" class="outline-2">
+<h2 id="org026a2d0">docker build</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Das Kommando <b>CMD</b> bestimmt wie der Container gestartet wird</li>
+<li>Das Kommando kann beim Container start überschrieben werden!</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+CMD java -Xmx1024M -Xms1024M -jar /opt/mc/mcserver.jar nogui</pre>
+
+</div>
+<ul>
+<li>Damit startet schon einmal der Container und der Server</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org9f5c03a" class="outline-2">
+<h2 id="org9f5c03a">docker build</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Mit <b>RUN</b> können ganz normale Shell Befehle ausgeführt werden</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+RUN mkdir -p /opt/mc-data
+RUN echo "eula=true" &gt; /opt/mc-data/eula.txt</pre>
+
+</div>
+<ul>
+<li>Und <b>WORKDIR</b> gibt das Working Directory an, welches für den Befehl ausgeführt werden soll</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+WORKDIR /opt/mc-data</pre>
+
+</div>
+<ul>
+<li><b>EXPOSE</b> gibt an, welche Ports das Image zur Verfügung stellt</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+EXPOSE 25565</pre>
+
+</div>
+<ul>
+<li>Der Minecraft Server sollte jetzt als Container laufen</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+docker build . -t mc-server
+docker run -p 25565 mc-server
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
+e76c3cee9a19        mc-server           "/bin/sh -c 'java ..."   14 seconds ago      Up 14 seconds       0.0.0.0:32774-&gt;25565/tcp   hungry_shannon</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org0faad0d" class="outline-2">
+<h2 id="org0faad0d">docker pull</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Mittels docker pull besteht auch die Möglichkeit Images von privaten Registrys herunterzuladen</li>
+<li>Dafür muss sich der Servername + Port im Imagenamen befinden</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker images
+REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
+mc-server                         latest              c2e5c1d0c9c6        37 minutes ago      118 MB
+mcs                               latest              c2e5c1d0c9c6        37 minutes ago      118 MB
+&lt;none&gt;                            &lt;none&gt;              5237529adf0d        38 minutes ago      118 MB
+&lt;none&gt;                            &lt;none&gt;              fa7f797c73d2        45 hours ago        181 MB
+jenkins                           latest              59d580851733        8 days ago          715 MB
+10.10.66.90:5000/trinity/oracle   initialized         00d8d38de3d6        8 days ago          8.06 GB</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org434a6d7" class="outline-2">
+<h2 id="org434a6d7">docker push</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Mittels docker push kann man Images in eine Registry laden</li>
+<li>Funktioniert auf dem offiziellen Dockerhub oder der privaten Registry</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgb6831cd" class="outline-2">
+<h2 id="orgb6831cd">Volumes</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>WICHTIG: Daten die in Dockercontainern geschrieben werden, sind flüchtig!</li>
+<li>Man kann einen Container immer wieder starten und behält seine Daten</li>
+<li>Richtiger Weg ist es aber, im Container nur die statischen Binaries zu verwenden
+und alles was persistiert werden soll in ein <b>Volume</b> zu packen</li>
+<li>Volumes werden im Dockerfile mit <b>VOLUME</b> beschrieben</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="dockerfile">
+VOLUME /opt/mc-data</pre>
+
+</div>
+<ul>
+<li>Sie müssen bei <b>docker run</b> mitgegeben werden</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+docker run -p 25565 -v <b>my-mc-data</b>:/opt/mc-data/ mcs</pre>
+
+</div>
+<ul>
+<li>Es wird der Inhalt aus dem Image in ein Volume namens 'my-mc-data' kopiert</li>
+<li>Dieses Volume kann dann unabhängig vom Container beschrieben und wiederverwendet werden</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org007b195" class="outline-2">
+<h2 id="org007b195">docker volume ls + inspect</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Volumes sind separate Verzeichnisse und können mit <b>docker volume</b> gemanaged werden</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="bash">
+[sebastian@calculon➔ ~] docker volume ls
+DRIVER              VOLUME NAME
+local               my-mc-data
+[sebastian@calculon➔ ~] docker volume inspect my-mc-data
+[
+    {
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/my-mc-data/_data",
+        "Name": "my-mc-data",
+        "Options": {},
+        "Scope": "local"
+    }
+]</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org89d58b0" class="outline-2">
+<h2 id="org89d58b0">docker networking</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Container kann man miteinander verlinken, so dass sie miteinander kommunizieren können:
+<a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/">https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/</a></li>
+<li>Linking ist aber deprecated</li>
+<li>Abgelöst durch eine umfassendere Networking Lösung</li>
+<li><a href="https://docs.docker.com/engine/userguide/networking/">https://docs.docker.com/engine/userguide/networking/</a></li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org68cc4f0" class="outline-2">
+<h2 id="org68cc4f0">docker-compose</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Kann verwendet werden um einfach mit YAML komplexere Umgebungen zu beschreiben und Container zu managen</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="yaml">
+version: '2'
+services:
+  jenkins:
+    image: jenkins
+    ports:
+    - "8080:8080"
+    links:
+    - redis
+  minecraft-server:
+    volumes:
+    - my-mc-data:/opt/mc-data
+    build: mcserver
+volumes:
+  my-mc-data: {}</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org16ffc28" class="outline-2">
+<h2 id="org16ffc28">Orchestrierung</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Die komplexere Ochestrierung von Containern über mehrere Hosts und Netzwerke mit Auto-Scaling, Fallbacks, Loadbalancing, etc. wird von anderen Projekten abgedeckt</li>
+<li>Docker Swarm, Kubernetes, Mesos, OpenShift</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orga6daf71" class="outline-2">
+<h2 id="orga6daf71">Zusammenfassung</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Schnell reproduzierbare Umgebungen</li>
+<li>Schnell aufsetzbar</li>
+<li>kleine und effiziente Container</li>
+<li>Microservices ohne Container heutzutage kaum denkbar</li>
+<li>kaum ignorierbare Technologie der "Zukunft"</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org1f6f645" class="outline-2">
+<h2 id="org1f6f645">Docker Toolbox</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>For Windows:
+<ul>
+<li>Bereitstellung einer minimalen VM für den benötigten Linuxkernel (Virtualbox basiert)</li>
+</ul></li>
+<li>For Mac:
+<ul>
+<li>Bereitstellung einer minimalen VM, basierend auf Hyperkit/xhyve
+<ul>
+<li>xhyve scheint langsamer als Virtualbox: <a href="https://www.reddit.com/r/docker/comments/59u1b8/why_is_docker_so_slow_on_mac/">https://www.reddit.com/r/docker/comments/59u1b8/why_is_docker_so_slow_on_mac/</a></li>
+<li>Workaround: Docker Machine mit Virtualbox verwenden</li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="adesso-favicon.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-org787fcfe" class="outline-2">
+<h2 id="org787fcfe">Fragen?</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="adesso-favicon.png"></aside><article class="flexbox vleft auto-fadein" id="text-">
+<h2>
+  <p>Danke! :-)</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides> 
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body> 
+
+</html>
