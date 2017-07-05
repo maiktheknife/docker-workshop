@@ -27,6 +27,9 @@ RUN apt-get update && apt-get install -y\
 # set workdir
 WORKDIR /opt/minecraft
 
+# expose a volume
+VOLUME /opt/minecraft/world
+
 # download minecraft server
 RUN curl -Lo minecraft_server.jar ${MC_URL}
 
