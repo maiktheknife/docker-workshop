@@ -12,16 +12,28 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
 
 # variables
 ENV MC_URL "https://s3.amazonaws.com/Minecraft.Download/versions/1.12/minecraft_server.1.12.jar" 
+
 # install dependencies 
 RUN apt-get update && apt-get install -y\
   gettext-base \
   && rm -rf /var/lib/apt/lists/*
+
+# set workdir
 WORKDIR /opt/minecraft
+
+# download minecraft server
 RUN curl -Lo minecraft_server.jar ${MC_URL}
+
+# copy properties
 COPY src/server.properties server.properties.template
 COPY src/run.sh .
+
 RUN chmod +x run.sh
 RUN echo "eula=true" > eula.txt
+
+# expose ports
 EXPOSE 25565
 EXPOSE 25565/udp
+
+# run minecraft
 CMD ./run.sh
