@@ -12,6 +12,10 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
 
 # variables
 ENV MC_URL "https://s3.amazonaws.com/Minecraft.Download/versions/1.12/minecraft_server.1.12.jar" 
+ENV MC_HOME "/opt/minecraft"
+
+# build arguments
+ARG FTB_MOD=""
 
 # runtime variables
 ENV MOTD "Minecraft Server"
@@ -25,20 +29,19 @@ RUN apt-get update && apt-get install -y\
   && rm -rf /var/lib/apt/lists/*
 
 # set workdir
-WORKDIR /opt/minecraft
+WORKDIR "${MC_HOME}"
 
 # expose a volume
-VOLUME /opt/minecraft/world
-
-# download minecraft server
-RUN curl -Lo minecraft_server.jar ${MC_URL}
+VOLUME "${MC_HOME}/world"
 
 # copy properties
 COPY src/server.properties server.properties.template
 COPY src/run.sh .
+COPY src/install.sh .
 
-RUN chmod +x run.sh
-RUN echo "eula=true" > eula.txt
+RUN chmod +x run.sh && \
+    chmod +x install.sh && \
+    ./install.sh
 
 # expose ports
 EXPOSE 25565
