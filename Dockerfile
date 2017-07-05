@@ -59,6 +59,9 @@ EXPOSE 27015/udp
 # copy the motd template
 COPY src/motd_text_default.txt motd_text_default.txt.template
 
+# configure volume
+VOLUME "${STCMD_HOME}/tf2/tf/replay"
+
 # copy the run script
 COPY src/run.sh .
 RUN chmod +x run.sh
