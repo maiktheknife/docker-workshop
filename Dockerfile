@@ -12,7 +12,13 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
 
 # variables
 ENV STCMD_URL "http://media.steampowered.com/client/steamcmd_linux.tar.gz"
-ENV STCMD_HOME "/opt/tf2" 
+ENV STCMD_HOME "/opt/tf2"
+
+# runtime variable
+ENV TIMELIMIT "30" 
+ENV MOTD "Welcome to our adesso Workshop Team Fortress 2 Server!"
+ENV MAX_PLAYERS "20"
+ENV MAX_ROUNDS "3"
 
 # install dependencies 
 RUN dpkg --add-architecture i386
@@ -25,6 +31,7 @@ RUN apt-get update && apt-get install -y\
   	libgcc1:i386 \
   	libz1:i386 \
   	libncurses5:i386 \
+    gettext-base \
   && rm -rf /var/lib/apt/lists/*
 
 # set the workdir
@@ -49,5 +56,13 @@ RUN ln -s "${STCMD_HOME}/linux32" "${HOME}/.steam/sdk32"
 EXPOSE 27015
 EXPOSE 27015/udp
 
+# copy the motd template
+COPY src/motd_text_default.txt motd_text_default.txt.template
+
+# copy the run script
+COPY src/run.sh .
+RUN chmod +x run.sh
+
 # run the game server
-CMD tf2/srcds_run -game tf +sv_pure 1 +sv_lan 1 +map ctf_2fort +maxplayers 24
+ENTRYPOINT ["./run.sh"]
+CMD ["-game", "tf", "+sv_pure", "1", "+sv_lan", "1", "+map", "ctf_2fort"]
