@@ -1,0 +1,16 @@
+version: '2'
+services:
+  minecraft:
+    build: 
+      context: .
+      args:
+        FTB_MOD: https://www.feed-the-beast.com/projects/ftb-presents-skyfactory-3/files/2435246/download
+    ports:
+     - "25565:25565"
+     - "25565:25565/udp"
+    volumes:
+     - ./data:/opt/minecraft/world
+    environment:
+      GAMEMODE: 0
+      MOTD: Welcome to the adesso Minecraft Server
+      JVM_MEMORY: 2G
