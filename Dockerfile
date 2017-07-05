@@ -11,8 +11,8 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
       description="Team Fortress 2 Game Server"
 
 # variables
-ENV TF2_URL "http://media.steampowered.com/client/steamcmd_linux.tar.gz"
-ENV TF2_HOME "/opt/tf2" 
+ENV STCMD_URL "http://media.steampowered.com/client/steamcmd_linux.tar.gz"
+ENV STCMD_HOME "/opt/tf2" 
 
 # install dependencies 
 RUN dpkg --add-architecture i386
@@ -27,19 +27,27 @@ RUN apt-get update && apt-get install -y\
   	libncurses5:i386 \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR $TF2_HOME
+# set the workdir
+WORKDIR $STCMD_HOME
 
-RUN curl -L ${TF2_URL} | tar xvz
+# download steamcmd
+RUN curl -L ${STCMD_URL} | tar xvz
 
+# copy the SteamCmd profile
 COPY src/tf2_ds.txt .
 
+# run SteamCmd to install the game
 RUN ./steamcmd.sh +runscript tf2_ds.txt
 
+# copy over the server configuration
 COPY src/server.cfg ./tf2/tf/cfg/
 
-RUN ln -s "${TF2_HOME}/linux32" "${HOME}/.steam/sdk32"
+# link the steam libraries
+RUN ln -s "${STCMD_HOME}/linux32" "${HOME}/.steam/sdk32"
 
+# expose the ports
 EXPOSE 27015
 EXPOSE 27015/udp
 
+# run the game server
 CMD tf2/srcds_run -game tf +sv_pure 1 +sv_lan 1 +map ctf_2fort +maxplayers 24
