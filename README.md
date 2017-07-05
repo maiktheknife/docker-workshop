@@ -7,6 +7,7 @@ Erstelle einen Docker Container für einen Team Fortress 2 Server. Hierfür ben�
 * Die Dependencies sind bereits alle im Dockerfile konfiguriert und können so übernommen werden.
 * SteamCmd wird über ein Profil mitgeteilt, welche Software installiert werden soll. Für Team Fortress 2, wird die AppId 232250 verwendet.
 * Die Ports für den Team Fortress 2 Server sind 27015 TCP und 27015 UDP
+* Steam verträgt sich unter Umständen nicht mit docker-compose. Bitte benutzt einfach ein normales Dockerfile und die gängigen docker commands 
 * Der Serverstartbefehl kann etwa so aussehen "tf2/srcds_run -game tf +sv_pure 1 +sv_lan 1 +map ctf_2fort +maxplayers 24", wobei +sv_lan 1 angibt, dass es sich um einen im Netzwerk verfügbaren Server handelt.
 
 ### Ziel
