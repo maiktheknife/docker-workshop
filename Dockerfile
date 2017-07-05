@@ -11,7 +11,8 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
       description="Team Fortress 2 Game Server"
 
 # variables
-ENV TF2_URL "http://media.steampowered.com/client/steamcmd_linux.tar.gz" 
+ENV TF2_URL "http://media.steampowered.com/client/steamcmd_linux.tar.gz"
+ENV TF2_HOME "/opt/tf2" 
 
 # install dependencies 
 RUN dpkg --add-architecture i386
@@ -26,7 +27,7 @@ RUN apt-get update && apt-get install -y\
   	libncurses5:i386 \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt/tf2
+WORKDIR $TF2_HOME
 
 RUN curl -L ${TF2_URL} | tar xvz
 
@@ -36,7 +37,7 @@ RUN ./steamcmd.sh +runscript tf2_ds.txt
 
 COPY src/server.cfg ./tf2/tf/cfg/
 
-RUN ln -s /opt/tf2/linux32 /root/.steam/sdk32
+RUN ln -s "${TF2_HOME}/linux32" "${HOME}/.steam/sdk32"
 
 EXPOSE 27015
 EXPOSE 27015/udp
