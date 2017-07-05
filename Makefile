@@ -1,21 +1,21 @@
-NAME=team-fortress-2
+NAME=steam-cmd
 VERSION=latest
 PORT=27015
 
-build:
-	docker build . -t $(NAME):$(VERSION)
+build-tf:
+	docker build . -t $(NAME)-tf:$(VERSION) --build-arg GAME=tf
 
-run: rm
-	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -v data:/opt/tf2/tf2/tf/replay $(NAME):$(VERSION)
+build-csgo:
+	docker build . -t $(NAME)-csgo:$(VERSION) --build-arg GAME=csgo
 
-run-with-parameters: rm
-	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -v data:/opt/tf2/tf2/tf/replay -e TIMELIMIT=15 -e MOTD="Welcome to our adesso Workshop Team Fortress 2 Server!" -e MAX_PLAYERS=22 -e MAX_ROUNDS=5 $(NAME):$(VERSION)
+run-tf: rm
+	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -e MOTD="Welcome to our adesso Workshop Team Fortress 2 Server!" $(NAME)-tf:$(VERSION) +map ctf_2fort
+
+run-csgo: rm
+	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -e MOTD="Welcome to our adesso Workshop CS:GO Server!" $(NAME)-csgo:$(VERSION) +map de_dust2
 
 rm:
 	docker rm -f $(NAME) || true
 
 logs:
-	docker logs $(NAME)
-
-list-replays:
-	docker exec -i $(NAME) ls -al tf2/tf/replay
+	docker logs $(NAME) || true
