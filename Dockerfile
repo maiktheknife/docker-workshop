@@ -13,6 +13,12 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
 # variables
 ENV MC_URL "https://s3.amazonaws.com/Minecraft.Download/versions/1.12/minecraft_server.1.12.jar" 
 
+# runtime variables
+ENV MOTD "Minecraft Server"
+ENV DIFFICULTY "1"
+ENV GAMEMODE "0"
+ENV JVM_MEMORY "1024M"
+
 # install dependencies 
 RUN apt-get update && apt-get install -y\
   gettext-base \
