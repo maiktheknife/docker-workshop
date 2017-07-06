@@ -26,10 +26,14 @@ RUN curl -Lo ogar.zip ${OGAR_URL} && \
 	mv /opt/MultiOgar-Edited-master "${OGAR_HOME}" && \
 	rm -rf ogar.zip 
 
+# change the workdir to the ogar home
 WORKDIR "${OGAR_HOME}"
 
+# install dependencies through npm
 RUN	npm install
 
+# change to ogars src directory
 WORKDIR "${OGAR_HOME}/src"
 
+# run the server
 CMD node index.js
