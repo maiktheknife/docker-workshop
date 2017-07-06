@@ -35,5 +35,9 @@ RUN	npm install
 # change to ogars src directory
 WORKDIR "${OGAR_HOME}/src"
 
+# expose ports
+EXPOSE 88
+EXPOSE 443
+
 # run the server
 CMD node index.js
