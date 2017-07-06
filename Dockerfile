@@ -49,5 +49,8 @@ RUN chmod +x run.sh
 EXPOSE 88
 EXPOSE 443
 
+# configure the volumes
+VOLUME "${OGAR_HOME}/src/logs"
+
 # run the server
 CMD ./run.sh
