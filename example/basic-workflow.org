@@ -1,0 +1,83 @@
+#+TITLE:       Basic Development Workflow
+#+AUTHOR:      Patrick Selge & Sebastian May
+#+LANGUAGE:    de
+#+OPTIONS:     H:2 num:t toc:nil \n:nil ::t |:t ^:t f:t tex:t html-postamble:nil
+
+Basic Development Workflow
+Um ein Docker Image "from scratch" aufzubauen empfiehlt sich zum Beispiel folgende Vorgehensweise:
+
+* Überlege dir welche Pakete und welches Basisbetriebssystem du für deine vermutlich Software benötigen wirst
+* Suche dazu ein passendes Basisimage auf hub.docker.com. Beispiele für Basisimages wären folgende:
+*** debian - wenn du vorher schon weisst dass du .deb Paket installieren musst empfiehlt sich das Image
+    Das Image bietet viele Varianten als Tags an:
+    - debian:stretch für das "stretch" Release
+    - debian:stable für das aktuelle stable Release
+    - debian:stable-slim für eine minimale Version des stables releases
+    - etc...
+*** centos - wenn du rpm Pakete benötigen wirst
+    Auch hier gibt es Tags für die unterschiedlichen Versionen:
+    - centos:centos6 für CentOS 6
+    - centos:centos7 für CentOS 7
+*** alpine - wenn du keine großen Abhängigkeiten hast empfiehlt sich dieses besonders minimals Basisimage (es ist nur 5 MB groß!)
+*** jdk, jenkins, etc.
+    Für die meiste Software gibt es mittlerweile schon vorgefertigte
+    Dockerimages die oft selbst eines der vorherigen Images als Basisimage verwenden.
+    Für ein Image, welches sowieso ein JDK8 benötigt könntest du also zum Beispiel direkt das Image java:8-jdk-alpine verwenden.
+* erstelle ein Verzeichnis und lege darin ein Dockerfile an
+   Für ein Debian "stretch" Basisimage also das folgende Dockerfile:
+   #+BEGIN_SRC docker
+   FROM debian:stretch
+   #+END_SRC
+* baue das Basisimage
+  Anschliessend kannst du aus dem gleichen Verzeichnis heraus das Basisimage bauen:
+  #+BEGIN_SRC bash
+  [~] docker build -t my-software .
+  #+END_SRC
+  Damit entsteht ein Image namens "my-software" das nichts weiter als eine Debian Installation enthält.
+* öffne eine root-shell in dem "leeren" Container
+   Um zu deinem Ziel zu kommen, musst du nun Software installieren, Dateien
+   herunterladen, etc. Damit du nicht raten musst wie die Befehle in Debian
+   heissen und ob sie verfügbar sind, öffnest du einfach eine Shell in dem
+   leeren Container, installierst deine Abhängigkeiten und schreibst dabei mit
+   welche Befehle in welcher Reihenfolge benötigt werden:
+   #+BEGIN_SRC bash
+   [~] docker run --name my-container -ti my-software /bin/bash
+   [root@2139qwj] apt update
+   [root@2139qwj] apt search stdc++
+   libstdc++6/stable,now 6.3.0-18 amd64
+   GNU-Implementierung der Standard-C++-Bibliothek (Version 3)
+   …
+   [root@2139qwj] apt install -y libstdc++6
+   #+END_SRC
+* erweitere dein Dockerfile um die entsprechenden Befehle
+   Wenn du ein paar Befehle zusammen hast um deine Container zum Laufen zu kriegen, füge diese in dein Dockerfile ein[fn:1]:
+   #+BEGIN_SRC bash
+   [~] pico Dockerfile
+   #+END_SRC
+   Der Inhalt des Dockerfiles ist in diesem Beispiel dann:
+   #+BEGIN_SRC docker
+   FROM debian:stretch
+   RUN apt update && apt install -y libstdc++6 && apt clean
+   #+END_SRC
+* Baue das Image neu
+   Danach musst du das Image nochmal bauen, damit deine Änderungen in das Image kommen:
+   #+BEGIN_SRC bash
+   [~] docker build -t my-software .
+   #+END_SRC
+* Starte den Container nochmal
+   Um den Container wieder zu starten und in eine Shell zu kommen, musst du ihn vorher entfernen:
+   #+BEGIN_SRC bash
+   [~] docker rm -f my-container
+   #+END_SRC
+   Und danach kannst du den Container wieder starten:
+   #+BEGIN_SRC bash
+   [~] docker run --name my-container -ti my-software /bin/bash
+   #+END_SRC
+* Und so weiter...
+   Anschliessend wiederholst du das "Einloggen, Ausführen, Aufschreiben, Anpassen, Neubauen" bis dein Image fertig ist.
+   Dabei werden natürlich nicht nur "RUN" Docker-Befehle dazu kommen und am Ende sollte zumindest ein "CMD" im Dockerfile stehen :-)
+* Footnotes
+
+[fn:1] Es ist best practice seine Images so klein wie möglich zu halten und bei
+jedem Schritt im Dockerfile nicht benötigte temporäre Dateien wieder zu
+entfernen damit die einzelnen Layer klein bleiben!
