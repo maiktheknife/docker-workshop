@@ -1,63 +1,3 @@
-# Cheatsheet 
-
-## Linux Commands
-
-### `pwd`
-Gibt das aktuelle Verzeichnis aus, in dem man sich befindet.
-
-```shell
-[~] pwd
- /home/sebastian
-```
-
-### `mkdir -p <Verzeichnis>`
-Legt ein Verzeichnis an
-
-```shell
-[~] mkdir -p /tmp/docker-test
-```
-
-### `cd <Verzeichnis>`
-**C**hange **D**irectory, wechselt in das angegebene Verzeichnis
-
-```shell
-[~] cd /tmp/docker-test
-[~] pwd
-/tmp/docker-test
-```
-
-### `pico <Dateiname>`
-Einfacher Texteditor (Ctrl-X zum Verlassen, Ctrl-S zum Speichern).
-
-```shell
-[~] pico Dockerfile
-```
-
-### `vim <Dateiname>`
-Komplizierter Texteditor (falls du vim nicht kennst, solltest du es jetzt nicht zu lernen anfangen)
-
-### `ls -la`
-Zeigt den Inhalt des aktuellen Verzeichnisses
-
-```shell
-[~] ls -la
- insgesamt 4
- drwxr-xr-x  2 sebastian sebastian   23 Jul  5 10:30 .
- drwxrwxrwt 19 root      root      4096 Jul  5 10:30 ..
- -rw-r--r--  1 sebastian sebastian    0 Jul  5 10:30 Dockerfile
-
-```
-### `cp <Quelle> <Ziel>`
-Kopiert Dateien von Quelle nach Ziel
-```shell
-[~] cp Dockerfile Dockerfile.backup
-```
-### `mv <Quelle> <Ziel>` 
-Verschiebt Dateien/Verzeichnisse von Quelle nach Ziel
-```shell
-[~] mv /tmp/docker-test /tmp/docker-repo
-```
-
 ## Docker Console Commands
 
 ### `docker <command> --help`
@@ -86,10 +26,30 @@ Successfully tagged my-server:latest
 ```
 ### `docker run <options> IMAGE <command>` 
 Führt den Befehl <command> in einem neuen Container basierend auf dem IMAGE aus. Die Optionen "-ti" werden benötigt wenn man einen interaktiven Prozess im Vordergrund startet (z.B. eine shell). Mit der Option "-d" wird der Container im Hintergrund gestartet. Ohne <command> wird das Standardkommando des Images (CMD bzw. ENTRYPOINT im Dockerfile) ausgeführt.
+#### Container im Hintergrund starten
+Mit der Option "-d" startet der Container im Hintergrund:
 ```shell
 [~] docker run -d my-server
 559d1d05b5f29e08eeb8dfb592c2444b733f7c88ba56c45b7e832de08f3f5004
 ```
+
+#### Container starten und Ports aus dem Container zur Verfügung stellen
+Mit der Option "-p <lokaler Port>:<Port im Container>" lassen sich Ports aus dem Container nach draussen reichen.
+Um zum Beispiel den im Container verfügbaren Port 8080 (laut EXPOSE command im Dockerfile) lokal unter Port 80 verfügbar machen möchte, muss 
+der Container so gestartet werden:
+```shell
+[~] docker run -p 80:8080 my-server
+559d1d05b5f29e08eeb8dfb592c2444b733f7c88ba56c45b7e832de08f3f5004
+```
+Ohne die 1. Portangabe wird Docker sich einen zufälligen Port aussuchen. Diesen sieht man dann mit `docker ps` oder `docker inspect <container id>`.
+
+#### Container mit einem alternativen Kommando starten
+Möchte man statt dem "CMD" aus dem Dockerfile einen anderen Befehl beim starten des Containers verwenden, kann man diesen mitgeben:
+```shell
+[~] docker run -ti my-server /bin/bash
+# <öffnet eine Shell im Container>
+```
+Dies kann verwendet werden um Probleme mit dem CMD zu debuggen oder sich direkt in eine Shell einzuklinken.
 
 ### `docker exec <options> CONTAINER COMMAND`
 Führt den angegebenen Befehl in einem laufenden Container aus. Exec wird oftmals dafür verwendet um sich in einen laufen Container "einzuklinken" und dort eine Shell zu öffnen. Für ein interaktives Kommando (wie die Shell) muss die Option -ti gesetzt werden.

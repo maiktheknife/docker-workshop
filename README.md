@@ -5,7 +5,9 @@ Nach einer kurzen Einführung in die Docker Technologien, geht es hier weiter im
 Da wir wissen, dass einen die Fülle an neuen API Calls erschlagen kann, haben wir Euch hier eine Reihe an Ressourcen zusammengestellen, die Euch bei der Ausarbeitung helfen sollen.
 
 * [Die Präsentation zu diesem Workshop][adesso-docker-workshop-presentation]
-* [Docker Cheat Sheet]
+* [Linux Cheat Sheet]
+* [Dockerfile Cheat Sheet]
+* [Docker Command Cheat Sheet]
 * [Beispiel Development Workflow]
 * [Docker Dokumentation]
 
@@ -45,7 +47,9 @@ beim 2. Lauf.
 
 [adesso]: https://www.adesso.de
 [adesso-docker-workshop-presentation]: https://rawgit.com/matuschewski-schulze/docker-workshop/master/presentation/docker.html
-[Docker Cheat Sheet]: cheatsheet.md
+[Linux Cheat Sheet]: linux-cheatsheet.md
+[Docker Command Cheat Sheet]: docker-cmd-cheatsheet.md
+[Dockerfile Cheat Sheet]: docker-file-cheatsheet.md
 [Beispiel Development Workflow]: example/basic-workflow.md
 [Docker Dokumentation]: https://docs.docker.com/
 [Slug]: https://en.wikipedia.org/wiki/Semantic_URL#Slug
