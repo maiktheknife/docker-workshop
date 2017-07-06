@@ -38,6 +38,6 @@ Für besonders schnelle Gruppen, gibt es zusätzlich noch Ideen und Anregungen z
 [adesso]: https://www.adesso.de
 [adesso-docker-workshop-presentation]: https://rawgit.com/matuschewski-schulze/docker-workshop/master/presentation/docker.html
 [Docker Cheat Sheet]: http://
-[Beispiel Development Workflow]: https://rawgit.com/matuschewski-schulze/docker-workshop/master/example/basic-workflow.html
+[Beispiel Development Workflow]: example/basic-workflow.md
 [Docker Dokumentation]: https://docs.docker.com/
 [Slug]: https://en.wikipedia.org/wiki/Semantic_URL#Slug
