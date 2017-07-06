@@ -11,7 +11,7 @@ run-tf: rm
 	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -e MOTD="Welcome to our adesso Workshop Team Fortress 2 Server!" $(NAME):tf2 +map ctf_2fort
 
 run-csgo: rm
-	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -e MOTD="Welcome to our adesso Workshop CS:GO Server!" $(NAME):csgo +map de_dust2
+	docker run -dt --name $(NAME) -p $(PORT):$(PORT) -p $(PORT):$(PORT)/udp -e MOTD="Welcome to our adesso Workshop CS:GO Server!" $(NAME):csgo +map de_dust2 +sv_setsteamaccount $(STEAM_API_KEY) -usercon +exec server.cfg
 
 rm:
 	docker rm -f $(NAME) || true
