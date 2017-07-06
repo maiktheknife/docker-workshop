@@ -2,10 +2,10 @@ Basic Development Workflow
 Um ein Docker Image "from scratch" aufzubauen empfiehlt sich zum Beispiel folgende Vorgehensweise:
 
 
-# Überlege dir welche Pakete und welches Basisbetriebssystem du für deine vermutlich Software benötigen wirst
+# Basisimage
+Überlege dir welche Pakete und welches Basisbetriebssystem du für deine vermutlich Software benötigen wirst.
 
-
-# Suche dazu ein passendes Basisimage auf hub.docker.com. Beispiele für Basisimages wären folgende:
+Suche dazu ein passendes Basisimage auf hub.docker.com. Beispiele für Basisimages wären folgende:
 
 1.  debian - wenn du vorher schon weisst dass du .deb Paket installieren musst empfiehlt sich das Image
 
@@ -32,7 +32,8 @@ Um ein Docker Image "from scratch" aufzubauen empfiehlt sich zum Beispiel folgen
     Für ein Image, welches sowieso ein JDK8 benötigt könntest du also zum Beispiel direkt das Image java:8-jdk-alpine verwenden.
 
 
-# erstelle ein Verzeichnis und lege darin ein Dockerfile an
+# Dockerfile erstellen
+Erstelle ein Verzeichnis und lege darin ein Dockerfile an.
 
 Für ein Debian "stretch" Basisimage also das folgende Dockerfile:
 
@@ -48,7 +49,8 @@ Anschliessend kannst du aus dem gleichen Verzeichnis heraus das Basisimage bauen
 Damit entsteht ein Image namens "my-software" das nichts weiter als eine Debian Installation enthält.
 
 
-# öffne eine root-shell in dem "leeren" Container
+# Shell im leeren Container
+öffne eine root-shell in dem "leeren" Container.
 
 Um zu deinem Ziel zu kommen, musst du nun Software installieren, Dateien
 herunterladen, etc. Damit du nicht raten musst wie die Befehle in Debian
@@ -65,7 +67,8 @@ welche Befehle in welcher Reihenfolge benötigt werden:
     [root@2139qwj] apt install -y libstdc++6
 
 
-# erweitere dein Dockerfile um die entsprechenden Befehle
+# Erste Änderungen am Dockerfile
+Erweitere dein Dockerfile um die aufgeschriebenen, notwendigen Befehle.
 
 Wenn du ein paar Befehle zusammen hast um deine Container zum Laufen zu kriegen, füge diese in dein Dockerfile ein<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>:
 
@@ -77,14 +80,14 @@ Der Inhalt des Dockerfiles ist in diesem Beispiel dann:
     RUN apt update && apt install -y libstdc++6 && apt clean
 
 
-# Baue das Image neu
+# Image Update
 
 Danach musst du das Image nochmal bauen, damit deine Änderungen in das Image kommen:
 
     [~] docker build -t my-software .
 
 
-# Starte den Container nochmal
+# Container Neustart
 
 Um den Container wieder zu starten und in eine Shell zu kommen, musst du ihn vorher entfernen:
 
@@ -95,7 +98,7 @@ Und danach kannst du den Container wieder starten:
     [~] docker run --name my-container -ti my-software /bin/bash
 
 
-# Und so weiter&#x2026;
+# Und so weiter…
 
 Anschliessend wiederholst du das "Einloggen, Ausführen, Aufschreiben, Anpassen, Neubauen" bis dein Image fertig ist.
 Dabei werden natürlich nicht nur "RUN" Docker-Befehle dazu kommen und am Ende sollte zumindest ein "CMD" im Dockerfile stehen :-)
