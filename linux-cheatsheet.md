@@ -2,14 +2,6 @@
 
 ## Linux Commands
 
-### `pwd`
-Gibt das aktuelle Verzeichnis aus, in dem man sich befindet.
-
-```shell
-[~] pwd
- /home/sebastian
-```
-
 ### `mkdir -p <Verzeichnis>`
 Legt ein Verzeichnis an
 
@@ -58,3 +50,13 @@ Verschiebt Dateien/Verzeichnisse von Quelle nach Ziel
 [~] mv /tmp/docker-test /tmp/docker-repo
 ```
 
+### `curl`
+**TODO**
+
+### `pwd`
+Gibt das aktuelle Verzeichnis aus, in dem man sich befindet.
+
+```shell
+[~] pwd
+ /home/sebastian
+```
