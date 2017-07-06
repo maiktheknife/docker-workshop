@@ -45,7 +45,7 @@ beim 2. Lauf.
 
 [adesso]: https://www.adesso.de
 [adesso-docker-workshop-presentation]: https://rawgit.com/matuschewski-schulze/docker-workshop/master/presentation/docker.html
-[Docker Cheat Sheet]: http://
+[Docker Cheat Sheet]: cheatsheet.md
 [Beispiel Development Workflow]: example/basic-workflow.md
 [Docker Dokumentation]: https://docs.docker.com/
 [Slug]: https://en.wikipedia.org/wiki/Semantic_URL#Slug
