@@ -34,6 +34,14 @@ Für besonders schnelle Gruppen, gibt es zusätzlich noch Ideen und Anregungen z
 
  Die **Lösung Branches** zeigen Lösungsansätze auf, die wir uns erdacht haben. Hier könnt Ihr nachsehen, wenn Ihr nach dem Workshop etwas nachbauen wollt und einmal festhängt oder einfach nur einen der Game Server starten wollt.
 
+## Hinweise
+
+### text file busy
+Es kann auf dem Server passieren dass bei einem "docker build" Aufruf die
+Fehlermeldung "text file busy" kommt und der Build abbricht. Das ist ein Problem
+mit dem darunterliegenden Filesystem. In aller Regel funktioniert der build dann
+beim 2. Lauf.
+
 
 [adesso]: https://www.adesso.de
 [adesso-docker-workshop-presentation]: https://rawgit.com/matuschewski-schulze/docker-workshop/master/presentation/docker.html
