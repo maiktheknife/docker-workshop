@@ -14,6 +14,11 @@ LABEL maintainer.author1="Sebastian May <sebastian.may@adesso.de>" \
 ENV OGAR_URL "https://github.com/Megabyte918/MultiOgar-Edited/archive/master.zip" 
 ENV OGAR_HOME "/opt/ogar"
 
+# runtime variables
+ENV PLAYER_SPEED "1"
+ENV MOTD "Willkommen auf dem adesso Agario Server"
+ENV MAX_CONNECTIONS_PER_IP "15"
+
 # install dependencies 
 RUN apt-get update && apt-get install -y\
     curl \
@@ -35,9 +40,14 @@ RUN	npm install
 # change to ogars src directory
 WORKDIR "${OGAR_HOME}/src"
 
+# install the configuration and the run script
+COPY src/gameserver.ini .
+COPY src/run.sh .
+RUN chmod +x run.sh
+
 # expose ports
 EXPOSE 88
 EXPOSE 443
 
 # run the server
-CMD node index.js
+CMD ./run.sh
