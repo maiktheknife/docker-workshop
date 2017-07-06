@@ -49,7 +49,7 @@ beim 2. Lauf.
 [adesso-docker-workshop-presentation]: https://rawgit.com/matuschewski-schulze/docker-workshop/master/presentation/docker.html
 [Linux Cheat Sheet]: linux-cheatsheet.md
 [Docker Command Cheat Sheet]: docker-cmd-cheatsheet.md
-[Dockerfile Cheat Sheet]: docker-file-cheatsheet.md
+[Dockerfile Cheat Sheet]: dockerfile-cheatsheet.md
 [Beispiel Development Workflow]: example/basic-workflow.md
 [Docker Dokumentation]: https://docs.docker.com/
 [Slug]: https://en.wikipedia.org/wiki/Semantic_URL#Slug
