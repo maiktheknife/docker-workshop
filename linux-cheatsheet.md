@@ -60,3 +60,10 @@ Gibt das aktuelle Verzeichnis aus, in dem man sich befindet.
 [~] pwd
  /home/sebastian
 ```
+
+### `screen` 
+Oftmals wird `screen` verwendet um sich gegen unterbrochene SSH Verbindungen abzusichern.
+Es öffnet eine Shell im aktuellen Verzeichnis, welche im Hintergrund bestehen bleibt, selbst
+wenn man den Server verlässt.
+Mit `screen -x` kann sich eine andere Person in deinen Screen einklinken und ihr "seht" euch gegenseitig.
+

@@ -1,4 +1,4 @@
-#+TITLE: Brownbag - Docker
+#+TITLE: Docker Workshop - Grundlagen
 #+AUTHOR: Patrick Selge & Sebastian May
 #+EMAIL: sebastian.may@adesso.de
 #+LANGUAGE: de
@@ -14,7 +14,7 @@
   2. Was ist Docker?
   3. Unterschied VM & Container
   4. Überblick Docker Befehle
-  5. Erstellen eines Dockercontainers am Beispiel von ... (Minecraft?)
+  5. Kurzes Praxisbeispiel mit Docker
   6. Ausblick (Swarm, Openshift, Kubernetes)
 
 * Einleitung
@@ -53,7 +53,7 @@
   - Software läuft komplett isoliert in einem virtuellen Rechner
   - Das Hostsystem ist weiter unabhängig von der Software die auf dem System läuft
   - Softwareupgrades sind isoliert, Abhängigkeiten aufgelöst, Softwareprobleme isoliert, voll automatisierbar 😊
-  - Erhöhte Komplexität, Performanceeinbusse, geringe Service "Density"😢
+  - Erhöhte Komplexität, Configuration Drifts, Performanceeinbusse, geringe Service "Density"😢
   #+BEGIN_CENTER
   #+ATTR_HTML: :width 400px
   #+BEGIN_SRC ditaa :file host_vm.png :cmdline -r -s 2 -E
@@ -160,13 +160,13 @@
   |  |                                             |
   |  |   +-Container 1-------------------+         |
   |  |   |                               |         |
-  |  +---+--JBoss PID4                   |         |
+  |  +---+--JBoss PID4 (vPID1)           |         |
   |  |   |                               |         |
   |  |   +-------------------------------+         |
   |  |                                             |
   |  |   +-Container 2 ------------------+         |
   |  |   |                               |         |
-  |  +---+--Oracle PID5                  |         |
+  |  +---+--Oracle PID5 (vPID1)          |         |
   |  |   |                               |         |
   |  |   +-------------------------------+         |
   |  |                                             |
@@ -268,7 +268,7 @@ Commands:
   top         Display the running processes of a container
 #+END_SRC
 * Docker Registry + docker search
-  - Docker Inc. hosted eine öffentliche Registry unter http://store.docker.com (ehemals http://hub.docker.com)
+  - Docker Inc. hosted eine öffentliche Registry unter http://hub.docker.com
   - *docker search* ist die Kommandozeilenvariante
 #+BEGIN_SRC bash
 [sebastian@calculon➔ ~] docker search jenkins
@@ -355,10 +355,11 @@ bcc11a719248        alpine               "/bin/sh"                51 minutes ago
 * docker run - Ports
   - startet man einen Container mit Netzwerkservice werden standardmäßig keine Ports durchgereicht[fn:3]
 #+BEGIN_SRC bash
-[sebastian@calculon➔ ~] docker run <b>-d</b> jenkins
-99614183b12e4e65b89e8f996a810d064b53e265d7bf4e30dddaf7d203678c0e
-[sebastian@calculon➔ ~] docker port 9961
-[sebastian@calculon➔ ~]
+[sebastian@calculon➔ ~] docker run --name jenkins-server -d -P jenkins
+da912d1ce9ceda1e06a56d4d3955f76f6dabd3d33b72e0726a2b03b455509e1a
+[sebastian@calculon➔ ~] docker port jenkins-server
+50000/tcp -> 0.0.0.0:32768
+8080/tcp -> 0.0.0.0:32769
 #+END_SRC
   - Container definieren Ports die "exposed" sein können, z.B. Port 8080 bei Jenkins
 #+BEGIN_SRC bash
@@ -414,9 +415,31 @@ openjdk                       OpenJDK is an open-source implementation o...   26
 #+BEGIN_SRC dockerfile
 FROM openjdk:jre-alpine
 #+END_SRC
+* docker layers
+  - ein Docker Image besteht aus mehreren Layern
+  - Jede FROM/RUN/ADD/COPY Zeile führt zu einem weiteren Layer
+  - jeder Layer ist unveränderlich
+    - RUN touch /tmp/file.txt
+    - RUN rm /tmp/file.txt
+    - Die Datei file.txt nimmt Speicherplatz im Gesamtimage ein. Aber:
+    - `RUN touch /tmp/file.txt && rm /tmp/file.txt` nimmt keinen Platz im Image ein
+  - Ein Layer speichert damit quasi nur den Diff zum vorherigen Layer und wird zum Cachen beim erneuten Bauen verwendet
+  -> Wenn dein erneuter Build sehr schnell ist, liegt es daran, dass die vorherigen Layer nicht geändert wurden!
+  #+BEGIN_CENTER
+  #+ATTR_HTML: :width 400px
+  #+BEGIN_SRC ditaa :file layers.png :cmdline -r -s 2 -E
+  +-----------------------+
+  | FROM alpine | Layer 1 |
+  +-------------+---------+
+  | ADD tomcat  | Layer 2 |
+  | EXPOSE 80   |         |
+  +-----------------------+
+  #+END_SRC
+  #+END_CENTER
 * docker build
   - Dateien werden mit dem Kommando *ADD* im Container hinzugefügt
-  - Das funktioniert mit URLs... (wird bei jedem 'docker build' neu geladen)
+  - Das funktioniert mit URLs... (wird im Gegensatz zu lokalen Dateien bei jedem 'docker build' neu geladen!)
+    - keine Cache invalidation
 #+BEGIN_SRC dockerfile
 ADD https://s3.amazonaws.com/Minecraft.Download/versions/1.11.2/minecraft_server.1.11.2.jar /opt/mc/mcserver.jar
 #+END_SRC
@@ -453,22 +476,6 @@ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
 e76c3cee9a19        mc-server           "/bin/sh -c 'java ..."   14 seconds ago      Up 14 seconds       0.0.0.0:32774->25565/tcp   hungry_shannon
 #+END_SRC
-* docker pull
-  - Mittels docker pull besteht auch die Möglichkeit Images von privaten Registrys herunterzuladen
-  - Dafür muss sich der Servername + Port im Imagenamen befinden
-#+BEGIN_SRC bash
-[sebastian@calculon➔ ~] docker images
-REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-mc-server                         latest              c2e5c1d0c9c6        37 minutes ago      118 MB
-mcs                               latest              c2e5c1d0c9c6        37 minutes ago      118 MB
-<none>                            <none>              5237529adf0d        38 minutes ago      118 MB
-<none>                            <none>              fa7f797c73d2        45 hours ago        181 MB
-jenkins                           latest              59d580851733        8 days ago          715 MB
-10.10.66.90:5000/trinity/oracle   initialized         00d8d38de3d6        8 days ago          8.06 GB
-#+END_SRC
-* docker push
-  - Mittels docker push kann man Images in eine Registry laden
-  - Funktioniert auf dem offiziellen Dockerhub oder der privaten Registry
 * Volumes
   - WICHTIG: Daten die in Dockercontainern geschrieben werden, sind flüchtig!
   - Man kann einen Container immer wieder starten und behält seine Daten
@@ -502,23 +509,11 @@ local               my-mc-data
     }
 ]
 #+END_SRC
-* docker networking
-  - Container kann man miteinander verlinken, so dass sie miteinander kommunizieren können:
-    https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/
-  - Linking ist aber deprecated
-  - Abgelöst durch eine umfassendere Networking Lösung
-  - https://docs.docker.com/engine/userguide/networking/
 * docker-compose
   - Kann verwendet werden um einfach mit YAML komplexere Umgebungen zu beschreiben und Container zu managen
 #+BEGIN_SRC yaml
 version: '2'
 services:
-  jenkins:
-    image: jenkins
-    ports:
-    - "8080:8080"
-    links:
-    - redis
   minecraft-server:
     volumes:
     - my-mc-data:/opt/mc-data

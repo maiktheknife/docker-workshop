@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2017-07-03 Mo 20:47 -->
+<!-- 2017-07-07 Fr 16:22 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -38,8 +38,8 @@
   
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgf18d363" class="outline-2">
-<h2 id="orgf18d363">Übersicht</h2>
+       <h2 class=" "><div id="outline-container-orga9bfdef" class="outline-2">
+<h2 id="orga9bfdef">Übersicht</h2>
 </div>
 </h2>
        <h3></h3>
@@ -50,7 +50,7 @@
 <li>Was ist Docker?</li>
 <li>Unterschied VM &amp; Container</li>
 <li>Überblick Docker Befehle</li>
-<li>Erstellen eines Dockercontainers am Beispiel von &#x2026; (Minecraft?)</li>
+<li>Kurzes Praxisbeispiel mit Docker</li>
 <li>Ausblick (Swarm, Openshift, Kubernetes)</li>
 </ol>
 
@@ -62,8 +62,8 @@
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org9c31dc9" class="outline-2">
-<h2 id="org9c31dc9">Einleitung</h2>
+       <h2 class=" "><div id="outline-container-orgf0e87bf" class="outline-2">
+<h2 id="orgf0e87bf">Einleitung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -86,8 +86,8 @@ Was wollen wir heute erreichen?
 </slide>
 <slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="adesso-favicon.png"></aside><hgroup class="">
-       <h2 class=" "><div id="outline-container-orga8588fb" class="outline-2">
-<h2 id="orga8588fb">Überblick Deploymentarten</h2>
+       <h2 class=" "><div id="outline-container-org35c9fce" class="outline-2">
+<h2 id="org35c9fce">Überblick Deploymentarten</h2>
 </div>
 </h2>
        <h3></h3>
@@ -104,8 +104,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org3f05259" class="outline-2">
-<h2 id="org3f05259">Bare Metal</h2>
+       <h2 class=" "><div id="outline-container-org45b5b59" class="outline-2">
+<h2 id="org45b5b59">Bare Metal</h2>
 </div>
 </h2>
        <h3></h3>
@@ -132,8 +132,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org53687b3" class="outline-2">
-<h2 id="org53687b3">Virtualisierung</h2>
+       <h2 class=" "><div id="outline-container-orgd7d6529" class="outline-2">
+<h2 id="orgd7d6529">Virtualisierung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -143,7 +143,7 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 <li>Software läuft komplett isoliert in einem virtuellen Rechner</li>
 <li>Das Hostsystem ist weiter unabhängig von der Software die auf dem System läuft</li>
 <li>Softwareupgrades sind isoliert, Abhängigkeiten aufgelöst, Softwareprobleme isoliert, voll automatisierbar 😊</li>
-<li>Erhöhte Komplexität, Performanceeinbusse, geringe Service "Density"😢</li>
+<li>Erhöhte Komplexität, Configuration Drifts, Performanceeinbusse, geringe Service "Density"😢</li>
 </ul>
 <article class="flexbox vcenter">
 
@@ -160,8 +160,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgc4d6056" class="outline-2">
-<h2 id="orgc4d6056">Prozessisolierung</h2>
+       <h2 class=" "><div id="outline-container-org42f6f44" class="outline-2">
+<h2 id="org42f6f44">Prozessisolierung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -198,8 +198,8 @@ Bare metal, Virtuelle Maschinen und Prozessisolierung
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org0dadbab" class="outline-2">
-<h2 id="org0dadbab">Prozessisolierung #2</h2>
+       <h2 class=" "><div id="outline-container-orgdce8f8f" class="outline-2">
+<h2 id="orgdce8f8f">Prozessisolierung #2</h2>
 </div>
 </h2>
        <h3></h3>
@@ -228,8 +228,8 @@ Im Wesentlichen kann das Hostsystem wieder wie bei "Bare Metal" voll ausgelastet
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org83af7a1" class="outline-2">
-<h2 id="org83af7a1">Systemprozesse in VMs</h2>
+       <h2 class=" "><div id="outline-container-org5ac424e" class="outline-2">
+<h2 id="org5ac424e">Systemprozesse in VMs</h2>
 </div>
 </h2>
        <h3></h3>
@@ -258,8 +258,8 @@ pstree in bash -&gt; Prozessbaum
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgfdd3174" class="outline-2">
-<h2 id="orgfdd3174">Systemprozesse in Containern</h2>
+       <h2 class=" "><div id="outline-container-org1b479bc" class="outline-2">
+<h2 id="org1b479bc">Systemprozesse in Containern</h2>
 </div>
 </h2>
        <h3></h3>
@@ -280,8 +280,8 @@ pstree in bash -&gt; Prozessbaum
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org9c4d6a7" class="outline-2">
-<h2 id="org9c4d6a7">Was ist Docker?</h2>
+       <h2 class=" "><div id="outline-container-orgd86789b" class="outline-2">
+<h2 id="orgd86789b">Was ist Docker?</h2>
 </div>
 </h2>
        <h3></h3>
@@ -312,8 +312,8 @@ pstree in bash -&gt; Prozessbaum
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orga86de08" class="outline-2">
-<h2 id="orga86de08">Effizienz</h2>
+       <h2 class=" "><div id="outline-container-orgc49d53c" class="outline-2">
+<h2 id="orgc49d53c">Effizienz</h2>
 </div>
 </h2>
        <h3></h3>
@@ -346,8 +346,8 @@ Sinnvoll oder nicht&#x2026;
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org75a4f68" class="outline-2">
-<h2 id="org75a4f68">Docker Images vs. Containers</h2>
+       <h2 class=" "><div id="outline-container-org46f0a5d" class="outline-2">
+<h2 id="org46f0a5d">Docker Images vs. Containers</h2>
 </div>
 </h2>
        <h3></h3>
@@ -381,8 +381,8 @@ und dem laufenden Container auf die Festplatte geschrieben werden (Layer funktio
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org7fa4ab8" class="outline-2">
-<h2 id="org7fa4ab8">docker daemon</h2>
+       <h2 class=" "><div id="outline-container-org5f64f43" class="outline-2">
+<h2 id="org5f64f43">docker daemon</h2>
 </div>
 </h2>
        <h3></h3>
@@ -422,8 +422,8 @@ Images: 20
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org9f40de5" class="outline-2">
-<h2 id="org9f40de5">docker help (Auszug)</h2>
+       <h2 class=" "><div id="outline-container-org301643e" class="outline-2">
+<h2 id="org301643e">docker help (Auszug)</h2>
 </div>
 </h2>
        <h3></h3>
@@ -464,15 +464,15 @@ Commands:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org472481f" class="outline-2">
-<h2 id="org472481f">Docker Registry + docker search</h2>
+       <h2 class=" "><div id="outline-container-org85bb130" class="outline-2">
+<h2 id="org85bb130">Docker Registry + docker search</h2>
 </div>
 </h2>
        <h3></h3>
        </hgroup>
 <article class="" id="text-">
 <ul>
-<li>Docker Inc. hosted eine öffentliche Registry unter <a href="http://store.docker.com">http://store.docker.com</a> (ehemals <a href="http://hub.docker.com">http://hub.docker.com</a>)</li>
+<li>Docker Inc. hosted eine öffentliche Registry unter <a href="http://hub.docker.com">http://hub.docker.com</a></li>
 <li><b>docker search</b> ist die Kommandozeilenvariante</li>
 </ul>
 <div class="org-src-container">
@@ -495,8 +495,8 @@ cloudbees/jenkins-enterprise          CloudBees Jenkins Enterprise (Rolling rele
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org3265e6a" class="outline-2">
-<h2 id="org3265e6a">docker run</h2>
+       <h2 class=" "><div id="outline-container-org31fd0ce" class="outline-2">
+<h2 id="org31fd0ce">docker run</h2>
 </div>
 </h2>
        <h3></h3>
@@ -542,8 +542,8 @@ a7ebd808d959        jenkins             "/bin/tini -- /usr..."   18 minutes ago 
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgb8ab319" class="outline-2">
-<h2 id="orgb8ab319">Diff im Dateisystem</h2>
+       <h2 class=" "><div id="outline-container-orgac10472" class="outline-2">
+<h2 id="orgac10472">Diff im Dateisystem</h2>
 </div>
 </h2>
        <h3></h3>
@@ -591,8 +591,8 @@ drwx------ 2 root root 25 Jan 26 09:12 root
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgd09855a" class="outline-2">
-<h2 id="orgd09855a">docker diff</h2>
+       <h2 class=" "><div id="outline-container-org6f1ad22" class="outline-2">
+<h2 id="org6f1ad22">docker diff</h2>
 </div>
 </h2>
        <h3></h3>
@@ -619,8 +619,8 @@ A /root/.ash_history</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org04bf784" class="outline-2">
-<h2 id="org04bf784">docker stop, kill + restart</h2>
+       <h2 class=" "><div id="outline-container-org56e1dfe" class="outline-2">
+<h2 id="org56e1dfe">docker stop, kill + restart</h2>
 </div>
 </h2>
        <h3></h3>
@@ -653,8 +653,8 @@ bcc11a719248        alpine               "/bin/sh"                51 minutes ago
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org2b669c2" class="outline-2">
-<h2 id="org2b669c2">docker images + rm + rmi</h2>
+       <h2 class=" "><div id="outline-container-org01f4a8c" class="outline-2">
+<h2 id="org01f4a8c">docker images + rm + rmi</h2>
 </div>
 </h2>
        <h3></h3>
@@ -673,8 +673,8 @@ bcc11a719248        alpine               "/bin/sh"                51 minutes ago
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org63cb86e" class="outline-2">
-<h2 id="org63cb86e">docker run - Ports</h2>
+       <h2 class=" "><div id="outline-container-org42ec6ce" class="outline-2">
+<h2 id="org42ec6ce">docker run - Ports</h2>
 </div>
 </h2>
        <h3></h3>
@@ -686,10 +686,11 @@ bcc11a719248        alpine               "/bin/sh"                51 minutes ago
 <div class="org-src-container">
 
 <pre class="prettyprint" data-lang="bash">
-[sebastian@calculon➔ ~] docker run <b>-d</b> jenkins
-99614183b12e4e65b89e8f996a810d064b53e265d7bf4e30dddaf7d203678c0e
-[sebastian@calculon➔ ~] docker port 9961
-[sebastian@calculon➔ ~]</pre>
+[sebastian@calculon➔ ~] docker run --name jenkins-server -d -P jenkins
+da912d1ce9ceda1e06a56d4d3955f76f6dabd3d33b72e0726a2b03b455509e1a
+[sebastian@calculon➔ ~] docker port jenkins-server
+50000/tcp -&gt; 0.0.0.0:32768
+8080/tcp -&gt; 0.0.0.0:32769</pre>
 
 </div>
 <ul>
@@ -730,8 +731,8 @@ docker run <b>-d</b> startet den Container im Hintergrund (-d == &#x2013;detach)
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org7de55d2" class="outline-2">
-<h2 id="org7de55d2">docker run - Ports</h2>
+       <h2 class=" "><div id="outline-container-org4e7ff5e" class="outline-2">
+<h2 id="org4e7ff5e">docker run - Ports</h2>
 </div>
 </h2>
        <h3></h3>
@@ -764,8 +765,8 @@ Escape character is '^]'.</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org599a273" class="outline-2">
-<h2 id="org599a273">docker build</h2>
+       <h2 class=" "><div id="outline-container-org49b7c8b" class="outline-2">
+<h2 id="org49b7c8b">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -795,8 +796,8 @@ Dann versuchen wir es mal&#x2026;
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgd2b6d0d" class="outline-2">
-<h2 id="orgd2b6d0d">docker build</h2>
+       <h2 class=" "><div id="outline-container-org6f4e3fb" class="outline-2">
+<h2 id="org6f4e3fb">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -831,8 +832,45 @@ FROM openjdk:jre-alpine</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org2890e66" class="outline-2">
-<h2 id="org2890e66">docker build</h2>
+       <h2 class=" "><div id="outline-container-orge77ba57" class="outline-2">
+<h2 id="orge77ba57">docker layers</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>ein Docker Image besteht aus mehreren Layern</li>
+<li>Jede FROM/RUN/ADD/COPY Zeile führt zu einem weiteren Layer</li>
+<li>jeder Layer ist unveränderlich
+<ul>
+<li>RUN touch /tmp/file.txt</li>
+<li>RUN rm /tmp/file.txt</li>
+<li>Die Datei file.txt nimmt Speicherplatz im Gesamtimage ein. Aber:</li>
+<li>`RUN touch /tmp/file.txt &amp;&amp; rm /tmp/file.txt` nimmt keinen Platz im Image ein</li>
+</ul></li>
+<li>Ein Layer speichert damit quasi nur den Diff zum vorherigen Layer und wird zum Cachen beim erneuten Bauen verwendet</li>
+</ul>
+<p>
+-&gt; Wenn dein erneuter Build sehr schnell ist, liegt es daran, dass die vorherigen Layer nicht geändert wurden!
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="layers.png" alt="layers.png" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-org44d0630" class="outline-2">
+<h2 id="org44d0630">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -840,7 +878,10 @@ FROM openjdk:jre-alpine</pre>
 <article class="" id="text-">
 <ul>
 <li>Dateien werden mit dem Kommando <b>ADD</b> im Container hinzugefügt</li>
-<li>Das funktioniert mit URLs&#x2026; (wird bei jedem 'docker build' neu geladen)</li>
+<li>Das funktioniert mit URLs&#x2026; (wird im Gegensatz zu lokalen Dateien bei jedem 'docker build' neu geladen!)
+<ul>
+<li>keine Cache invalidation</li>
+</ul></li>
 </ul>
 <div class="org-src-container">
 
@@ -865,8 +906,8 @@ ADD minecraft_server.1.11.2.jar /opt/mc/mcserver.jar</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orge78207b" class="outline-2">
-<h2 id="orge78207b">docker build</h2>
+       <h2 class=" "><div id="outline-container-org795b7da" class="outline-2">
+<h2 id="org795b7da">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -893,8 +934,8 @@ CMD java -Xmx1024M -Xms1024M -jar /opt/mc/mcserver.jar nogui</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orga861f8c" class="outline-2">
-<h2 id="orga861f8c">docker build</h2>
+       <h2 class=" "><div id="outline-container-org3190d99" class="outline-2">
+<h2 id="org3190d99">docker build</h2>
 </div>
 </h2>
        <h3></h3>
@@ -949,59 +990,8 @@ e76c3cee9a19        mc-server           "/bin/sh -c 'java ..."   14 seconds ago 
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgd9f89f1" class="outline-2">
-<h2 id="orgd9f89f1">docker pull</h2>
-</div>
-</h2>
-       <h3></h3>
-       </hgroup>
-<article class="" id="text-">
-<ul>
-<li>Mittels docker pull besteht auch die Möglichkeit Images von privaten Registrys herunterzuladen</li>
-<li>Dafür muss sich der Servername + Port im Imagenamen befinden</li>
-</ul>
-<div class="org-src-container">
-
-<pre class="prettyprint" data-lang="bash">
-[sebastian@calculon➔ ~] docker images
-REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-mc-server                         latest              c2e5c1d0c9c6        37 minutes ago      118 MB
-mcs                               latest              c2e5c1d0c9c6        37 minutes ago      118 MB
-&lt;none&gt;                            &lt;none&gt;              5237529adf0d        38 minutes ago      118 MB
-&lt;none&gt;                            &lt;none&gt;              fa7f797c73d2        45 hours ago        181 MB
-jenkins                           latest              59d580851733        8 days ago          715 MB
-10.10.66.90:5000/trinity/oracle   initialized         00d8d38de3d6        8 days ago          8.06 GB</pre>
-
-</div>
-
-
-</article>
-
-</slide>
-</slide>
-<slide id="sec-"  >
-<hgroup class="">
-       <h2 class=" "><div id="outline-container-orgdde533e" class="outline-2">
-<h2 id="orgdde533e">docker push</h2>
-</div>
-</h2>
-       <h3></h3>
-       </hgroup>
-<article class="" id="text-">
-<ul>
-<li>Mittels docker push kann man Images in eine Registry laden</li>
-<li>Funktioniert auf dem offiziellen Dockerhub oder der privaten Registry</li>
-</ul>
-
-
-</article>
-
-</slide>
-</slide>
-<slide id="sec-"  >
-<hgroup class="">
-       <h2 class=" "><div id="outline-container-org52fdc48" class="outline-2">
-<h2 id="org52fdc48">Volumes</h2>
+       <h2 class=" "><div id="outline-container-org20d10b5" class="outline-2">
+<h2 id="org20d10b5">Volumes</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1041,8 +1031,8 @@ docker run -p 25565 -v <b>my-mc-data</b>:/opt/mc-data/ mcs</pre>
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orga6fe64a" class="outline-2">
-<h2 id="orga6fe64a">docker volume ls + inspect</h2>
+       <h2 class=" "><div id="outline-container-org7bae96a" class="outline-2">
+<h2 id="org7bae96a">docker volume ls + inspect</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1078,30 +1068,8 @@ local               my-mc-data
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-orgf5a10dc" class="outline-2">
-<h2 id="orgf5a10dc">docker networking</h2>
-</div>
-</h2>
-       <h3></h3>
-       </hgroup>
-<article class="" id="text-">
-<ul>
-<li>Container kann man miteinander verlinken, so dass sie miteinander kommunizieren können:
-<a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/">https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/</a></li>
-<li>Linking ist aber deprecated</li>
-<li>Abgelöst durch eine umfassendere Networking Lösung</li>
-<li><a href="https://docs.docker.com/engine/userguide/networking/">https://docs.docker.com/engine/userguide/networking/</a></li>
-</ul>
-
-
-</article>
-
-</slide>
-</slide>
-<slide id="sec-"  >
-<hgroup class="">
-       <h2 class=" "><div id="outline-container-org6283655" class="outline-2">
-<h2 id="org6283655">docker-compose</h2>
+       <h2 class=" "><div id="outline-container-org97049c2" class="outline-2">
+<h2 id="org97049c2">docker-compose</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1115,12 +1083,6 @@ local               my-mc-data
 <pre class="prettyprint" data-lang="yaml">
 version: '2'
 services:
-  jenkins:
-    image: jenkins
-    ports:
-    - "8080:8080"
-    links:
-    - redis
   minecraft-server:
     volumes:
     - my-mc-data:/opt/mc-data
@@ -1137,8 +1099,8 @@ volumes:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org97fdc24" class="outline-2">
-<h2 id="org97fdc24">Orchestrierung</h2>
+       <h2 class=" "><div id="outline-container-org8112a32" class="outline-2">
+<h2 id="org8112a32">Orchestrierung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1156,8 +1118,8 @@ volumes:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org434c72f" class="outline-2">
-<h2 id="org434c72f">Zusammenfassung</h2>
+       <h2 class=" "><div id="outline-container-orgecb8c2e" class="outline-2">
+<h2 id="orgecb8c2e">Zusammenfassung</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1179,8 +1141,8 @@ volumes:
 </slide>
 <slide id="sec-"  >
 <hgroup class="">
-       <h2 class=" "><div id="outline-container-org07bce58" class="outline-2">
-<h2 id="org07bce58">Docker Toolbox</h2>
+       <h2 class=" "><div id="outline-container-orgf99daed" class="outline-2">
+<h2 id="orgf99daed">Docker Toolbox</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1208,8 +1170,8 @@ volumes:
 </slide>
 <slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="adesso-favicon.png"></aside><hgroup class="">
-       <h2 class=" "><div id="outline-container-org07caf3a" class="outline-2">
-<h2 id="org07caf3a">Fragen?</h2>
+       <h2 class=" "><div id="outline-container-org0492b84" class="outline-2">
+<h2 id="org0492b84">Fragen?</h2>
 </div>
 </h2>
        <h3></h3>

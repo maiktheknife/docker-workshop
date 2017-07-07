@@ -1,7 +1,7 @@
 var SLIDE_CONFIG = {
    // Slide Settings
    settings: {
-     title: 'Brownbag - Docker', 
+     title: 'Docker Workshop - Grundlagen', 
      subtitle: '', 
      useBuilds: true, // Default: true. False will turn off slide animation builds. 
      usePrettify: true, // Default: true 
