@@ -29,7 +29,7 @@ Suche dazu ein passendes Basisimage auf hub.docker.com. Beispiele für Basisimag
 
     Für die meiste Software gibt es mittlerweile schon vorgefertigte
     Dockerimages die oft selbst eines der vorherigen Images als Basisimage verwenden.
-    Für ein Image, welches sowieso ein JDK8 benötigt könntest du also zum Beispiel direkt das Image java:8-jdk-alpine verwenden.
+    Für ein Image, welches sowieso ein JDK8 benötigt könntest du also zum Beispiel direkt das Image java:8-jdk-alpine verwenden. Eine gute Bezugsquelle hierfür ist [Docker Hub](https://hub.docker.com/).
 
 
 # Dockerfile erstellen
@@ -37,14 +37,17 @@ Erstelle ein Verzeichnis und lege darin ein Dockerfile an.
 
 Für ein Debian "stretch" Basisimage also das folgende Dockerfile:
 
-    FROM debian:stretch
-
+```shell
+FROM debian:stretch
+```
 
 # baue das Basisimage
 
 Anschliessend kannst du aus dem gleichen Verzeichnis heraus das Basisimage bauen:
 
-    [~] docker build -t my-software .
+```shell
+[~] docker build -t my-software .
+```
 
 Damit entsteht ein Image namens "my-software" das nichts weiter als eine Debian Installation enthält.
 
@@ -58,45 +61,53 @@ heissen und ob sie verfügbar sind, öffnest du einfach eine Shell in dem
 leeren Container, installierst deine Abhängigkeiten und schreibst dabei mit
 welche Befehle in welcher Reihenfolge benötigt werden:
 
-    [~] docker run --name my-container -ti my-software /bin/bash
-    [root@2139qwj] apt update
-    [root@2139qwj] apt search stdc++
-    libstdc++6/stable,now 6.3.0-18 amd64
-    GNU-Implementierung der Standard-C++-Bibliothek (Version 3)
-    …
-    [root@2139qwj] apt install -y libstdc++6
-
+```shell
+[~] docker run --name my-container -ti my-software /bin/bash
+[root@2139qwj] apt update
+[root@2139qwj] apt search stdc++
+libstdc++6/stable,now 6.3.0-18 amd64
+GNU-Implementierung der Standard-C++-Bibliothek (Version 3)
+…
+[root@2139qwj] apt install -y libstdc++6
+```
 
 # Erste Änderungen am Dockerfile
 Erweitere dein Dockerfile um die aufgeschriebenen, notwendigen Befehle.
 
 Wenn du ein paar Befehle zusammen hast um deine Container zum Laufen zu kriegen, füge diese in dein Dockerfile ein<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>:
 
-    [~] pico Dockerfile
+```shell
+[~] pico Dockerfile
+```
 
 Der Inhalt des Dockerfiles ist in diesem Beispiel dann:
 
-    FROM debian:stretch
-    RUN apt update && apt install -y libstdc++6 && apt clean
-
+```shell
+FROM debian:stretch
+RUN apt update && apt install -y libstdc++6 && apt clean
+```
 
 # Image Update
 
 Danach musst du das Image nochmal bauen, damit deine Änderungen in das Image kommen:
 
-    [~] docker build -t my-software .
-
+```shell
+[~] docker build -t my-software .
+```
 
 # Container Neustart
 
 Um den Container wieder zu starten und in eine Shell zu kommen, musst du ihn vorher entfernen:
 
-    [~] docker rm -f my-container
+```shell
+[~] docker rm -f my-container
+```
 
 Und danach kannst du den Container wieder starten:
 
-    [~] docker run --name my-container -ti my-software /bin/bash
-
+```shell
+[~] docker run --name my-container -ti my-software /bin/bash
+```
 
 # Und so weiter…
 

@@ -51,7 +51,12 @@ Verschiebt Dateien/Verzeichnisse von Quelle nach Ziel
 ```
 
 ### `curl`
-**TODO**
+Lädt Dateien aus dem Internet.
+```shell
+[~] curl -L -o output.file http://file.url
+```
+
+**-L** folgt redirects, mit **-o** kann eine Output Datei angegeben werden, andernfalls wird der Quellname verwendet. 
 
 ### `pwd`
 Gibt das aktuelle Verzeichnis aus, in dem man sich befindet.
