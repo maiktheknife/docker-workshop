@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-echo "Start"
+# cat src/server.properties
 
-GAMEMODE=$1
-DIFFICULTY=$2
-MOTD=$3
+sed -i 's/gamemode=0/gamemode='"$GAMEMODE"'/g' server.properties
+sed -i 's/difficulty=0/difficulty='"$DIFFICULTY"'/g' server.properties
+sed -i 's/motd=test/motd='"$MOTD"'/g' server.properties
 
-sed -i 's/gamemode=0/gamemode=GAMEMODE/g' src/server.properties
-sed -i 's/difficulty=1/difficulty=$DIFFICULTY/g' src/server.properties
-sed -i 's/motd=A Minecraft Server/motd=MOTD/g' src/server.properties
+# cat src/server.properties
 
 java -jar minecraft_server.jar

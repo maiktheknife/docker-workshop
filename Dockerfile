@@ -6,9 +6,9 @@ FROM java:openjdk-8-jre
 # variables
 ENV MC_URL "https://s3.amazonaws.com/Minecraft.Download/versions/1.12/minecraft_server.1.12.jar" 
 
-ARG GAMEMODE=0
-ARG DIFFICULTY=1
-ARG MOTD="Hello from Docker"
+ENV GAMEMODE=0
+ENV DIFFICULTY=1
+ENV MOTD="Hello from Docker"
 
 # 1.1 Arbeitsverzeichnis setzen
 # 1.2 minecraft.jar runterladen
@@ -16,12 +16,12 @@ ARG MOTD="Hello from Docker"
 # RUN mkdir -p minecraft
 WORKDIR minecraft
 
-RUN curl -L -o mincraft_server.jar $MC_URL
+RUN curl -L -o minecraft_server.jar $MC_URL
 RUN echo "eula=true" > eula.txt
 
 # 2.1 Kopiere deine Server Properties Datei
-ADD src src
-
+ADD src/server.properties server.properties
+ADD start.sh start.sh
 # 4.1 (optional) Installiere eine Mod
 
 # 1.4 Mache die Ports für den Server bekannt
@@ -33,7 +33,7 @@ VOLUME /home/docker-7/minecraft/world
 # 1.5 Richte das Startkommando für den Container ein
 # --> 2.2 Ersetze das Startkommando durch ein Startskript,
 #   das Parameter entgegen nimmt und sie in der Server Properties Datei ersetzt.
-CMD start.sh $GAMEMODE $DIFFICULTY $MOTD
+CMD ./start.sh 
 
 # --> 4.1 (optional, alternativ) Installiere eine Mod beim Starten des Containers
 
