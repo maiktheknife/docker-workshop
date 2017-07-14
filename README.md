@@ -31,12 +31,6 @@ envsubst < INPUT > OUTPUT
 sed -i 's/example_key=value/example_key=new_value/g' banana.txt
 ```
 
-## Aufgabe 3
-Sorge dafür, dass die flüchtigen Daten, wie die Logs und sqlite Datenbank in einem Volume gespeichert werden und damit beim erneuten Aufsetzen des Containers nicht verschwinden.
-
-### Tipps
-- Die Enemy Territory Logs liegen nach dem ersten Start im Unterverzeichnis ****.
-- Die Enemy Territory sqllite Datenbank liegt nach dem ersten Start im Unterverzeichnis ****.
 
 [Enemy Territory Download]: https://www.etlegacy.com/download/file/87
 [Enemy Territory PAK Download]: http://filebase.trackbase.net/et/full/et260b.x86_full.zip
