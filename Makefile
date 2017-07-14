@@ -6,7 +6,7 @@ build:
 	docker build . -t $(NAME):$(VERSION)
 
 run: rm
-	docker run -dt --name $(NAME) -p $(PORT):$(PORT)/udp $(NAME):$(VERSION)
+	docker run -dt --name $(NAME) -p $(PORT):$(PORT)/udp $(NAME):$(VERSION) -e PASSWD=myrconpasswd
 
 rm:
 	docker rm -f $(NAME) || true
