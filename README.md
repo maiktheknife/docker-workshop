@@ -22,11 +22,11 @@ Das Repository kommt mit Vorlagen, Aufgaben und Lösungsvorschlägen für die fo
 * Team Fortress 2 (*team-fortress-2*)
 * Minecraft (*minecraft*)
 
-Zu jedem dieser Spiele existieren fünf Branches
+Zu jedem dieser Spiele existieren bis zu fünf Branches
 - *aufgabe-$(spielname)*
 - *loesung-$(spielname)-aufgabe-$(aufgabe)*
 
-, wobei *$(spielname)* dem [Slug] entspricht, der in Klammern hinter dem jeweiligen Spiel oben aufgelistet ist (z.B. *aufgabe-enemy-territory*). Hinter *$(aufgabe)* verbirgt sich ein Lösungsvorschlag zu einer der vier Aufgaben (z.B. *loesung-enemy-territory-aufgabe-1*). Diese Branches könnt ihr auf eurer Kommandozeile mit folgendem Befehl öffnen.
+, wobei *$(spielname)* dem [Slug] entspricht, der in Klammern hinter dem jeweiligen Spiel oben aufgelistet ist (z.B. *aufgabe-enemy-territory*). Hinter *$(aufgabe)* verbirgt sich ein Lösungsvorschlag zu einer der vier Aufgaben (z.B. *loesung-enemy-territory-aufgabe-1*) (bei enemy-territory nur zwei Aufgaben). Diese Branches könnt ihr auf eurer Kommandozeile mit folgendem Befehl öffnen.
 
 ``` shell
 git checkout aufgabe-enemy-territory
